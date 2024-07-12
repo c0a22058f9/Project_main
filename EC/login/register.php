@@ -39,16 +39,15 @@ $pdo->exec($createTagsTable);
 $createFingerprintsTable = "CREATE TABLE IF NOT EXISTS fingerprints (
     fingerprint_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
+user_id INT,
     fingerprint VARCHAR(255),
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 )";
 $pdo->exec($createFingerprintsTable);
 
 // ユーザセッションID保存テーブル作成
-$createUserSessionsTable = "CREATE TABLE IF NOT EXISTS user_sessions (
-    user_session_id INT AUTO_INCREMENT PRIMARY KEY,
-    user_id INT NOT NULL,
-    session_id VARCHAR(255),
+$createUserSessionsTable = "CREATE TABLE IF NOT EXISTS sessions (
+    session_id VARCHAR(128) PRIMARY KEY,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 )";
 

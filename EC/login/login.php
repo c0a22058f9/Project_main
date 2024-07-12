@@ -1,5 +1,5 @@
 <?php
-//エラーを表示
+// エラーを表示
 ini_set('display_errors', "On");
 error_reporting(E_ALL);
 session_start();
@@ -30,8 +30,8 @@ try {
         // セッションIDを生成
         $session_id = session_id();
 
-        // user_sessionsテーブルにセッションIDを保存
-        $insert_sql = "INSERT INTO user_sessions (user_id, session_id) VALUES (:user_id, :session_id)";
+        // セッションをデータベースに保存
+        $insert_sql = "INSERT INTO sessions (user_id, session_id) VALUES (:user_id, :session_id)";
         $insert_stmt = $pdo->prepare($insert_sql);
         $insert_stmt->bindParam(':user_id', $user['user_id'], PDO::PARAM_INT);
         $insert_stmt->bindParam(':session_id', $session_id, PDO::PARAM_STR);

@@ -33,7 +33,7 @@ $createTagsTable = "CREATE TABLE IF NOT EXISTS tags (
 )";
 $conn->query($createTagsTable);
 
-$product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
 
 $sql = "SELECT product_id, name, price, description, stock, image1, image2, image3 FROM products WHERE product_id = ?";
 $stmt = $conn->prepare($sql);
