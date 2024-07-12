@@ -21,7 +21,7 @@ if (empty($session_id)) {
     die('セッションが存在しないか、無効です。');
 }
 
-// セッションIDからユーザIDを取得
+// セッションIDからユーザーIDを取得
 $getUserIdSql = "SELECT user_id FROM sessions WHERE session_id = ?";
 try {
     $stmt = $conn->prepare($getUserIdSql);
@@ -39,13 +39,13 @@ try {
 echo "セッションID: " . $session_id . "<br>";
 echo "ユーザーID: " . $user_id . "<br>";
 
-// cartテーブルが存在しない場合に自動で作成
+// cartテーブルが存在しない場合に自動で作成（quantityカラムを追加）
 $createCartTable = "
     CREATE TABLE IF NOT EXISTS cart (
-        cart_id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         product_id INT NOT NULL,
-        session_id VARCHAR(255) NOT NULL,
+        quantity INT NOT NULL,
+        PRIMARY KEY (user_id, product_id),
         FOREIGN KEY (user_id) REFERENCES users(user_id),
         FOREIGN KEY (product_id) REFERENCES products(product_id)
     )
@@ -56,14 +56,19 @@ try {
     die("テーブル作成エラー: " . $e->getMessage());
 }
 
-// POSTから商品IDを取得
+// POSTから商品IDと個数を取得
 $product_id = isset($_POST['product_id']) ? intval($_POST['product_id']) : 0;
+$quantity = isset($_POST['quantity']) ? intval($_POST['quantity']) : 1; // デフォルト値を1に設定
 
-// 商品IDをcartテーブルに保存
-$insertCartSql = "INSERT INTO cart (user_id, product_id, session_id) VALUES (?, ?, ?)";
+// 商品IDと個数をcartテーブルに保存
+$insertCartSql = "
+    INSERT INTO cart (user_id, product_id, quantity)
+    VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE quantity = quantity + VALUES(quantity)
+";
 try {
     $stmt = $conn->prepare($insertCartSql);
-    $stmt->execute([$user_id, $product_id, $session_id]);
+    $stmt->execute([$user_id, $product_id, $quantity]);
     echo "商品がカートに追加されました。";
 } catch (PDOException $e) {
     die("実行エラー: " . $e->getMessage());
