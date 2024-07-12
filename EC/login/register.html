@@ -6,7 +6,10 @@
     <title>新規登録</title>
     <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- FingerprintJSのスクリプトを追加 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fingerprintjs2/2.1.0/fingerprint2.min.js"></script>
     <!-- AjaxZip3 JavaScript -->
     <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
     <script>
@@ -73,11 +76,11 @@
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">新規登録</a>
+                <a href="../index.html" class="brand-logo black-text nav-font">Lélian Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ</a></li>
-                    <li><a href="login.html" class="waves-effect waves-light btn">ログイン</a></li>
-                    <li><a href="register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                    <li><a href="./cart/cart.html" class="waves-effect waves-light btn">商品カート</a></li>
+                    <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
             </div>
         </nav>
@@ -128,5 +131,29 @@
             </form>
         </div>
     </main>
+    <div class="padding">
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Lélian Luxe</h5>
+                    <p class="grey-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; 2024 Shopping Site. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    </div>
 </body>
 </html>

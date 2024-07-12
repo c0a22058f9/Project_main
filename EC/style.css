@@ -1,0 +1,92 @@
+body {
+    font-family: "SimSun";
+    background-image: url("./image/background.jpg");
+    background-color:rgba(255,255,255,0.8);
+    background-blend-mode:lighten;
+}
+.carousel .carousel-item {
+    height: 300px;
+}
+.carousel-item img {
+    height: 100%;
+    object-fit: cover;
+}
+.nav-wrapper {
+    background-image: url(./image/nav-background.jpg);
+}
+.nav-content {
+    background-color: #919191;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 70%;
+    text-align: center;
+}
+.padding {
+    padding-top: 50px;
+}
+.search {
+    background-color:rgba(255,255,255,0.8);
+    background-blend-mode:lighten;
+}
+.button-color {
+    background-color :#919191;
+    
+}
+.nav-font {
+    font-family: "SimSun";
+    margin-left: 100px;
+    font-weight:bold
+}
+.card .card-image img {
+    height: 200px;
+    object-fit: cover;
+}
+a.btn_25 {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	text-decoration: none;
+	height: 4rem;
+	width: 120px;
+	margin: auto;
+	padding: 0 4rem;
+	border-radius: 100vw;
+	background: #6a6e78;
+	background-size: 400%;
+	color: #fff;
+}
+a.btn_25:hover::before {
+  transform: scaleX(1);
+}
+a.btn_25:hover {
+	color: #fff;
+}
+a.btn_25 span {
+  position: relative;
+  z-index: 1;
+}
+a.btn_25::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(39, 172, 217, 1) 10.8%,
+    rgba(18, 83, 229, 1) 94.3%
+  );
+  transition: all 0.475s;
+}
+footer {
+    background-color: #828e9c;
+}
+footer h5, footer p {
+    color: white;
+}
