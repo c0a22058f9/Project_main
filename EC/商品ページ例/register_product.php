@@ -54,7 +54,7 @@ if (empty($name) || empty($price) || empty($description) || empty($stock)) {
 
 try {
     // 画像をアップロード
-    $uploadDir = '/uploads/';
+    $uploadDir = 'uploads/';
     $uploadedImage1 = $uploadDir . basename($_FILES['image1']['name']);
     $uploadedImage2 = $uploadDir . basename($_FILES['image2']['name']);
     $uploadedImage3 = $uploadDir . basename($_FILES['image3']['name']);
