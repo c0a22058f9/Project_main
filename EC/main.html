@@ -24,6 +24,16 @@
     <main>
         <div class="container">
             <h2>Featured Products</h2>
+
+            <!-- Search Form -->
+            <form action="search.php" method="GET">
+                <div class="input-field">
+                    <input id="search" type="text" name="query" required>
+                    <label for="search">商品を検索</label>
+                </div>
+                <button type="submit" class="waves-effect waves-light btn">検索</button>
+            </form>
+
             <!-- Recommendation Carousel -->
             <div class="carousel carousel-slider center">
                 <div class="carousel-item red white-text" href="#one!">
@@ -128,29 +138,20 @@
 
     <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <!DOCTYPE html>
-    <html lang="ja">
-    <head>
-        <!-- Materialize CSS -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-        <meta charset="UTF-8">
-    </head>
-    <body>
-        <header>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-    var elems = document.querySelectorAll('.carousel');
-    var instances = M.Carousel.init(elems, {
-        fullWidth: true,
-        indicators: true
-    });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.carousel');
+            var instances = M.Carousel.init(elems, {
+                fullWidth: true,
+                indicators: true
+            });
 
-    // 自動スクロール機能
-    setInterval(function() {
-        var instance = M.Carousel.getInstance(elems[0]); // 最初のカーセルインスタンスを取得
-        instance.next(); // 次のスライドへ移動
-    }, 5000); // 5秒ごとに実行
-});
-</script>
+            // 自動スクロール機能
+            setInterval(function() {
+                var instance = M.Carousel.getInstance(elems[0]); // 最初のカーセルインスタンスを取得
+                instance.next(); // 次のスライドへ移動
+            }, 5000); // 5秒ごとに実行
+        });
+    </script>
 </body>
 </html>

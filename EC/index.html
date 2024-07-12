@@ -1,71 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ショッピングサイトへようこそ</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-        body {
-            font-family: "SimSun";
-            background-image: url("./image/background.jpg");
-            background-color:rgba(255,255,255,0.8);
-            background-blend-mode:lighten;
-        }
-        .carousel .carousel-item {
-            height: 300px;
-        }
-        .carousel-item img {
-            height: 100%;
-            object-fit: cover;
-        }
-        .nav-wrapper {
-            background-image: url(./image/nav-background.jpg);
-        }
-        .nav-content {
-            background-color: #919191;
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 70%;
-            text-align: center;
-        }
-        .padding {
-            padding-top: 30px;
-        }
-        .nav-font {
-            font-family: "SimSun";
-            margin-left: 100px;
-            font-weight:bold
-        }
-        .card .card-image img {
-            height: 200px;
-            object-fit: cover;
-        }
-        footer {
-            background-color: #232f3e;
-        }
-        footer h5, footer p {
-            color: white;
-        }
-    </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a class="brand-logo black-text nav-font">ショッピングサイト</a>
+                <a href="#" class="brand-logo">ショッピングサイトへようこそ</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="main.html" class="waves-effect waves-light btn">商品カート</a></li>
+                    <!--商品検索バー-->
+                    <li>
+                        <form>
+                            <div class="input-field">
+                                <input id="search" type="search" required>
+                                <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                                <i class="material-icons">close</i>
+                            </div>
+                        </form>
+                    </li>
+                    <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ</a></li>
                     <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
                     <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
-                </ul>
-            </div>
-            <div class="nav-content">
-                <ul class="tabs tabs-transparent">
-                    <li class="tab"><a href="#all">すべての商品</a></li>
-                    <li class="tab"><a href="#new">新着商品</a></li>
-                    <li class="tab"><a href="#popular">人気商品</a></li>
-                    <li class="tab"><a href="#sale">セール商品</a></li>
                 </ul>
             </div>
         </nav>
@@ -73,89 +34,87 @@
     
     <main>
         <div class="container">
-            <h2 class="center-align padding">おすすめ商品</h2>
+            <h2>Featured Products</h2>
             <!-- Recommendation Carousel -->
             <div class="carousel carousel-slider center">
-                <div class="carousel-item" href="./image1.jpg">
-                    <img src="./image1.jpg" alt="商品1">
-                    <h2 class="white-text">商品1</h2>
-                    <p class="white-text">おすすめ商品1</p>
+                <div class="carousel-item red white-text" href="#one!">
+                    <h2>1</h2>
+                    <p class="white-text">カーセル1</p>
                 </div>
-                <div class="carousel-item" href="./image2.jpg">
-                    <img src="./image2.jpg" alt="商品2">
-                    <h2 class="white-text">商品2</h2>
-                    <p class="white-text">おすすめ商品2</p>
+                <div class="carousel-item amber white-text" href="#two!">
+                    <h2>2</h2>
+                    <p class="white-text">カーセル2</p>
                 </div>
-                <div class="carousel-item" href="./image3.jpg">
-                    <img src="./image3.jpg" alt="商品3">
-                    <h2 class="white-text">商品3</h2>
-                    <p class="white-text">おすすめ商品3</p>
+                <div class="carousel-item green white-text" href="#three!">
+                    <h2>3</h2>
+                    <p class="white-text">カーセル3</p>
                 </div>
-                <div class="carousel-item" href="./image4.jpg">
-                    <img src="./image4.jpg" alt="商品4">
-                    <h2 class="white-text">商品4</h2>
-                    <p class="white-text">おすすめ商品4</p>
+                <div class="carousel-item blue white-text" href="#four!">
+                    <h2>4</h2>
+                    <p class="white-text">カーセル4</p>
                 </div>
             </div>
 
             <div class="row">
                 <!-- Card 1 -->
-                <div class="col s12 m6 l3">
-                    <div class="card hoverable">
+                <div class="col s4">
+                    <div class="card">
                         <div class="card-image">
-                            <img src="./image2.jpg" alt="Product 1">
+                            <img src="./image1.jpg" alt="Product 1">
                         </div>
+                        <span class="card-title">Product 1</span>
                         <div class="card-content">
-                            <span class="card-title">商品1</span>
-                            <p>この商品は人気のおすすめ商品です。</p>
+                            This is a featured product.
                         </div>
                         <div class="card-action">
-                            <a href="#">詳細を見る</a>
+                            <a href="#">More Info</a>
                         </div>
                     </div>
                 </div>
                 <!-- Card 2 -->
-                <div class="col s12 m6 l3">
-                    <div class="card hoverable">
+                <div class="col s4">
+                    <div class="card">
                         <div class="card-image">
-                            <img src="./image2.jpg" alt="Product 2">
+                            <img src="./image1.jpg" alt="Product 2">
                         </div>
+                        <span class="card-title">Product 2</span>
                         <div class="card-content">
-                            <span class="card-title">商品2</span>
-                            <p>この商品も人気のおすすめ商品です。</p>
+                            This is another featured product.
                         </div>
                         <div class="card-action">
-                            <a href="#">詳細を見る</a>
+                            <a href="#">More Info</a>
                         </div>
                     </div>
                 </div>
                 <!-- Card 3 -->
-                <div class="col s12 m6 l3">
-                    <div class="card hoverable">
+                <div class="col s4">
+                    <div class="card">
                         <div class="card-image">
-                            <img src="./image2.jpg" alt="Product 3">
+                            <img src="./image1.jpg" alt="Product 3">
                         </div>
+                        <span class="card-title">Product 3</span>
                         <div class="card-content">
-                            <span class="card-title">商品3</span>
-                            <p>この商品は新しく登場した商品です。</p>
+                            This is yet another featured product.
                         </div>
                         <div class="card-action">
-                            <a href="#">詳細を見る</a>
+                            <a href="#">More Info</a>
                         </div>
                     </div>
                 </div>
+            </div>
+            <div class="row">
                 <!-- Card 4 -->
-                <div class="col s12 m6 l3">
-                    <div class="card hoverable">
+                <div class="col s4">
+                    <div class="card">
                         <div class="card-image">
-                            <img src="./image2.jpg" alt="Product 4">
+                            <img src="./image1.jpg" alt="Product 4">
                         </div>
+                        <span class="card-title">Product 4</span>
                         <div class="card-content">
-                            <span class="card-title">商品4</span>
-                            <p>この商品は高評価を得ています。</p>
+                            This is a new featured product.
                         </div>
                         <div class="card-action">
-                            <a href="#">詳細を見る</a>
+                            <a href="#">More Info</a>
                         </div>
                     </div>
                 </div>
@@ -171,23 +130,38 @@
                     <h5 class="white-text">Your Shopping Site</h5>
                     <p class="grey-text text-lighten-4">ここにサイトの詳細情報を記載します。</p>
                 </div>
-                <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">リンク</h5>
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="main.html">ショッピング</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
-                    </ul>
-                </div>
             </div>
         </div>
-        <div class="footer-copyright">
-            <div class="container">
-                &copy; 2022 Your Shopping Site. All rights reserved.
-            </div>
+        <div class="container">
+            &copy; 2022 Your Shopping Site. All rights reserved.
         </div>
     </footer>
+
+    <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="scripts.js"></script>
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <!-- Materialize CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        <header>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.carousel');
+    var instances = M.Carousel.init(elems, {
+        fullWidth: true,
+        indicators: true
+    });
+
+    // 自動スクロール機能
+    setInterval(function() {
+        var instance = M.Carousel.getInstance(elems[0]); // 最初のカーセルインスタンスを取得
+        instance.next(); // 次のスライドへ移動
+    }, 5000); // 5秒ごとに実行
+});
+</script>
 </body>
 </html>
