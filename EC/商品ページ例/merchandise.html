@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>商品詳細</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .thumbnail-container {
+            float: left;
+            width: 10%;
+        }
+        .main-image-container {
+            float: left;
+            width: 50%;
+            overflow: hidden; /* はみ出た部分を非表示にする */
+        }
+
+        .main-image-container img {
+            width: 100%; /* コンテナの幅に合わせて画像を拡大/縮小 */
+            height: auto; /* 高さを自動調整してアスペクト比を保持 */
+            object-fit: cover; /* コンテナに合わせて画像をトリミング */
+        }
+        .thumbnail-container img {
+            cursor: pointer;
+            width: 100%;
+            margin-bottom: 10px;
+            border: 2px solid transparent;
+        }
+        .thumbnail-container img.selected {
+            border: 2px solid red;
+        }
+        .Product-Description {
+            float: left;
+            width: 40%;
+        }
+        .btn.waves-effect.waves-light {
+            background-color: red;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-wrapper">
+            <a href="#" class="brand-logo">商品詳細</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ戻る</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <h2>商品詳細</h2>
+        <hr>
+        <div id="product-container">
+            <!-- Product details will be inserted here by JavaScript -->
+        </div>
+    <!--調整用空白-->
+    <div style="clear: both;"></div>
+    <!--レビュー機能を追加する上に入力フォームを追加する。またしたにレビューを表示する-->
+    <div class="review-container">
+        <hr>
+        <h3>レビュー</h3>
+        <form action="review.php" method="post">
+            <input type="text" name="name" placeholder="名前を入力してください">
+            <input type="text" name="review" placeholder="レビューを入力してください">
+            <button class="btn waves-effect waves-light" type="submit" name="action">レビューを投稿
+                <i class="material-icons right"></i>
+            </button>
+        </form>
+        <hr>
+        <div class="review">
+            <p>レビューがありません</p>
+        </div>
+    </div>
+    <script>
+        function changeMainImage(src, thumbnail) {
+            document.getElementById('main-image').src = src;
+            const thumbnails = document.querySelectorAll('.thumbnail-container img');
+            thumbnails.forEach(img => img.classList.remove('selected'));
+            thumbnail.classList.add('selected');
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const productId = urlParams.get('id');
+
+            fetch(`fetch_products.php?id=${productId}`)
+                .then(response => response.json())
+                .then(product => {
+                    const container = document.getElementById('product-container');
+                    if (product) {
+                        container.innerHTML = `
+                            <div class="thumbnail-container">
+                                <img src=".${product.image1}" alt="商品画像1" onclick="changeMainImage('.${product.image1}', this)" class="selected">
+                                <img src=".${product.image2}" alt="商品画像2" onclick="changeMainImage('.${product.image2}', this)">
+                                <img src=".${product.image3}" alt="商品画像3" onclick="changeMainImage('.${product.image3}', this)">
+                            </div>
+                            <div class="main-image-container">
+                                <img id="main-image" src=".${product.image1}" alt="商品画像">
+                            </div>
+                            <div class="Product-Description">
+                                <h3>${product.name}</h3>
+                                <hr>
+                                <h4>価格: ${product.price}円</h4>
+                                <hr>
+                                <p>商品説明：${product.description}</p>
+                                <hr>
+                                <p>在庫数：${product.stock}</p>
+                                <hr>
+                                <form action="../cart/cart.php" method="post">
+                                    <input type="hidden" name="product_id" value="id">
+                                    <button class="btn waves-effect waves-light" type="submit" name="action">カートに追加
+                                        <i class="material-icons right"></i>
+                                    </button>
+                                </form>
+                        `;
+                    } else {
+                        container.innerHTML = `<p>商品が見つかりませんでした。</p>`;
+                    }
+                });
+        });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

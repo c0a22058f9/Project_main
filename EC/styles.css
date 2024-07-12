@@ -1,0 +1,292 @@
+/* Materialize CSS framework */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+}
+
+header,
+.nav-wrapper,
+.nav-content {
+  background-color: #00796b;
+  padding: 0 10px;
+}
+
+header .brand-logo {
+  font-size: 1.8rem;
+}
+
+header .nav-extended .nav-content .tabs {
+  background-color: #004d40;
+}
+
+header .nav-extended .nav-content .tabs .tab a {
+  color: white;
+}
+
+main {
+  flex: 1 0 auto;
+  padding-top: 20px;
+}
+
+.carousel.carousel-slider {
+  height: 500px;
+}
+
+.carousel .carousel-item h2 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.carousel .carousel-item p {
+  font-size: 1.5rem;
+}
+
+.card {
+  transition: box-shadow 0.25s;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.card-image img {
+  height: 250px;
+  object-fit: cover;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+.card-content p {
+  font-size: 1rem;
+  color: #757575;
+}
+
+.page-footer {
+  padding-top: 20px;
+  background-color: #004d40;
+  color: white;
+}
+
+.page-footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer .container p {
+  margin: 0;
+}
+
+.nav-extended {
+  position: relative;
+}
+
+.tabs {
+  position: relative;
+  overflow: hidden;
+  background-color: #004d40;
+}
+
+.tabs::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.tab {
+  float: left;
+  text-align: center;
+}
+
+.tab a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  text-transform: uppercase;
+  padding: 10px 15px;
+  transition: background-color 0.2s ease-out;
+}
+
+.tab a:hover,
+.tab a.active {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Grid system */
+.row {
+  margin-left: -0.75rem;
+  margin-right: -0.75rem;
+  margin-bottom: 20px;
+}
+
+.col {
+  float: left;
+  box-sizing: border-box;
+  padding: 0 0.75rem;
+}
+
+.s12 {
+  width: 100%;
+}
+
+.m6 {
+  width: 50%;
+}
+
+.l3 {
+  width: 25%;
+}
+
+/* Carousel */
+.carousel {
+  position: relative;
+  height: 500px;
+}
+
+.carousel.carousel-slider {
+  height: 500px;
+  overflow: hidden;
+  width: 100%;
+  z-index: 1;
+}
+
+.carousel.carousel-slider .carousel-fixed-item {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 20px;
+  z-index: 1;
+}
+
+.carousel .carousel-item {
+  visibility: hidden;
+  width: 100%;
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+}
+
+.carousel .carousel-item.active {
+  visibility: visible;
+  opacity: 1;
+  position: relative;
+  z-index: 1;
+}
+
+/* Floating Action Button */
+.fixed-action-btn {
+  position: fixed;
+  right: 23px;
+  bottom: 23px;
+  padding-top: 15px;
+  margin-bottom: 0;
+  z-index: 998;
+}
+
+.fixed-action-btn ul {
+  left: 0;
+  right: 0;
+  position: absolute;
+  bottom: 64px;
+  margin-bottom: 0;
+}
+
+.fixed-action-btn.direction-left ul {
+  top: 0;
+  right: 64px;
+  left: 'auto';
+  bottom: 0;
+}
+
+.fixed-action-btn.direction-top ul {
+  bottom: 'auto';
+  right: 0;
+  top: 64px;
+  left: 0;
+}
+
+.fixed-action-btn.direction-right ul {
+  top: 0;
+  left: 64px;
+  right: 'auto';
+  bottom: 0;
+}
+
+.fixed-action-btn ul a.btn-floating {
+  opacity: 0;
+  margin: 10px 0;
+}
+
+.fixed-action-btn ul a.btn-floating:hover {
+  opacity: 1;
+}
+
+.fixed-action-btn ul li {
+  margin-bottom: 15px;
+}
+
+.fixed-action-btn ul li:first-child {
+  padding-bottom: 15px;
+}
+
+.fixed-action-btn .btn-floating {
+  display: inline-block;
+  color: #fff;
+  background-color: #26a69a;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  -webkit-transition: background-color 0.3s, -webkit-box-shadow 0.3s;
+  transition: background-color 0.3s, -webkit-box-shadow 0.3s;
+  transition: box-shadow 0.3s, background-color 0.3s;
+  transition: box-shadow 0.3s, background-color 0.3s, -webkit-box-shadow 0.3s;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 50%;
+}
+
+.fixed-action-btn .btn-floating i {
+  color: white;
+}
+
+.fixed-action-btn.horizontal ul {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -webkit-flex-direction: row-reverse;
+  -ms-flex-direction: row-reverse;
+  flex-direction: row-reverse;
+}
+
+.fixed-action-btn.horizontal ul li {
+  display: inline-block;
+  margin-bottom: 0;
+  margin-right: 15px;
+}
+
+.fixed-action-btn.horizontal ul li:first-child {
+  padding-right: 15px;
+  padding-bottom: 0;
+}
+
+.fixed-action-btn ul a.btn-floating.active {
+  opacity: 1;
+}
+
+.fixed-action-btn ul a.btn-floating.active:hover {
+  opacity: 1;
+}

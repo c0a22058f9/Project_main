@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>レビューの書き込み</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Materialize JSの読み込み -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>レビューを書く</h1>
+        <form>
+            <div class="input-field">
+                <input type="text" id="タイトル名" required>
+                <label for="title_name">タイトル名</label>
+            </div>
+            <div class="input-field">
+                <textarea id="レビューコメント" class="materialize-textarea" required></textarea>
+                <label for="レビューコメント">レビューコメント</label>
+            </div>
+            <div class="input-field">
+                <!--星の数をスライダーで視覚的に選択できるようにしてください-->
+                <input type="range" id="星の数" min="1" max="5" step="1" required>
+                <label for="星の数">星の数</label>
+            </div>
+            <button class="btn waves-effect waves-light" type="submit">Submit</button>
+        </form>
+    </div>
+</body>

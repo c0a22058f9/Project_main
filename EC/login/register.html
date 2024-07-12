@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新規登録</title>
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- AjaxZip3 JavaScript -->
+    <script src="https://ajaxzip3.github.io/ajaxzip3.js" charset="UTF-8"></script>
+    <script>
+    // 郵便番号から住所自動入力
+        function populateAddress() {
+            // AjaxZip3のライブラリを使って郵便番号から住所を取得
+            AjaxZip3.zip2addr('zipcode', '', 'prefecture', 'city');
+            // Materializeのテキストフィールドを更新
+            setTimeout(function() {
+                M.updateTextFields(); // Materialize CSSのテキストフィールドを更新
+                // 都道府県が入力されたらラベルを非表示にする
+                const prefectureLabel = document.querySelector('label[for="prefecture"]');
+                if (document.getElementById('prefecture').value) {
+                    prefectureLabel.classList.add('active'); // ラベルをアクティブ状態にする
+                } else {
+                    prefectureLabel.classList.remove('active');
+                }
+            }, 100); // 少し遅延を入れる
+        }
+
+        // メールアドレスのバリデーション
+        function isValidEmail(email) {
+            const emailPattern = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
+            return emailPattern.test(email);
+        }
+
+        // パスワードの強度チェック
+        function checkPasswordStrength(password) {
+            // 英大文字、英小文字、数字を含む8文字以上
+            const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+            return passwordPattern.test(password);
+        }
+
+        // フォームのバリデーション
+        function validateForm() {
+            const fields = ['last_name', 'first_name', 'birthday', 'prefecture', 'city', 'street', 'email', 'password'];
+            let isValid = true;
+
+            fields.forEach(function(field) {
+                const value = document.getElementById(field).value;
+                if (!value) {
+                    isValid = false;
+                    alert(field + 'が入力されていません。');
+                }
+            });
+
+            const emailValue = document.getElementById('email').value;
+            if (!isValidEmail(emailValue)) {
+                isValid = false;
+                alert('有効なメールアドレスを入力してください。');
+            }
+
+            const passwordValue = document.getElementById('password').value;
+            if (!checkPasswordStrength(passwordValue)) {
+                isValid = false;
+                alert('パスワードは大文字、小文字、数字を含む8文字以上である必要があります。');
+            }
+
+            return isValid;
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="#" class="brand-logo">新規登録</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ</a></li>
+                    <li><a href="login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container">
+            <h2>新規登録</h2>
+            <!-- <form action="register.php" method="post" onsubmit="return validateForm()"> -->
+            <form action="register.php" method="post">
+                <div class="input-field">
+                    <input type="text" name="last_name" id="last_name" required>
+                    <label for="last_name">名字</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="first_name" id="first_name" required>
+                    <label for="first_name">名</label>
+                </div>
+                <div class="input-field">
+                    <input type="date" name="birthday" id="birthday" required>
+                    <label for="birthday">生年月日</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="zipcode" id="zipcode" onkeyup="populateAddress();" maxlength="7">
+                    <label for="zipcode">郵便番号 ハイフン(-)は入力しないでください。</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="prefecture" id="prefecture">
+                    <label for="prefecture">都道府県</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="city" id="city">
+                    <label for="city">市区町村</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" name="street" id="street" required>
+                    <label for="street">住所</label>
+                </div>
+                <div class="input-field">
+                    <input type="email" name="email" id="email" required>
+                    <label for="email">メールアドレス</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" id="password" required>
+                    <label for="password">パスワード</label>
+                </div>
+                <button class="btn waves-effect waves-light" type="submit" name="action">登録</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
