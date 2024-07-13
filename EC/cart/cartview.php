@@ -8,7 +8,7 @@ $password = "passwordA1!";
 $dbname = "ecdatabase";
 
 //画像ディレクトリ
-$uploadDir = '../商品ページ例';
+$uploadDir = '../商品ページ例/';
 
 // データベース接続情報の定義
 define('DSN', 'mysql:host=' . $servername . ';dbname=' . $dbname . ';charset=utf8');
@@ -108,6 +108,26 @@ try {
     <main>
         <div class="container">
             <h2>カート</h2>
+            <?php
+            // 合計金額を計算
+            // 商品詳細を取得するクエリ
+            $getProductSql = "SELECT * FROM products WHERE product_id = :product_id";
+            
+            // 合計金額を計算
+            $totalAmount = 0;
+            foreach ($cartItems as $item) {
+                $stmt = $conn->prepare($getProductSql);
+                $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
+                $stmt->execute();
+                $product = $stmt->fetch(PDO::FETCH_ASSOC);
+                $totalAmount += $product['price'] * $item['quantity'];
+            }
+            ?>
+            <div class="row">
+                <div class="col s12">
+                    <h3>合計金額: <?= htmlspecialchars($totalAmount) ?>円</h3>
+                </div>
+            </div>
             <div class="row">
                 <div class="col s12">
                     <?php
@@ -125,7 +145,7 @@ try {
                             $product = $stmt->fetch(PDO::FETCH_ASSOC);
                             ?>
                             <div class="product">
-                                <img src="<?=$uploadDir , htmlspecialchars($product['image1']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                                <img src="<?=$uploadDir . htmlspecialchars($product['image1']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
                                 <div class="product-info">
                                     <h2><?= htmlspecialchars($product['name']) ?></h2>
                                     <p>価格: <?= htmlspecialchars($product['price']) ?>円</p>
@@ -138,6 +158,7 @@ try {
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                        <a href="purchase.php" class="waves-effect waves-light btn">購入ページへ移動</a>
                     <?php endif; ?>
                 </div>
             </div>
