@@ -158,6 +158,7 @@ try {
                                 </div>
                             </div>
                         <?php endforeach; ?>
+                        <a href="purchase.php" class="waves-effect waves-light btn">購入ページへ移動</a>
                     <?php endif; ?>
                 </div>
             </div>
