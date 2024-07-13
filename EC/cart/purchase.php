@@ -1,4 +1,3 @@
-<!-- purchase.php -->
 <?php
 session_start();
 $servername = "localhost";
@@ -62,47 +61,74 @@ foreach ($cartItems as $item) {
 
 // 購入ボタンが押された場合
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 在庫を減らす
-    $updateStockSql = "UPDATE products SET stock = stock - :quantity WHERE product_id = :product_id";
-    $removeFromCartSql = "DELETE FROM cart WHERE user_id = :user_id AND product_id = :product_id";
+    if (!isset($_POST['h-captcha-response'])) {
+        echo '<script>alert("hCaptchaを完了してください。");</script>';
+    } else {
+        // hCaptchaの検証
+        $hCaptchaSecret = 'ES_89c6c49805844ec4a6218042defdf3b5'; // ここにhCaptchaのシークレットキーを入力
+        $hCaptchaResponse = $_POST['h-captcha-response'];
 
-    $conn->beginTransaction();
-    try {
-        foreach ($cartItems as $item) {
-            // 在庫を減らす
-            $stmt = $conn->prepare($updateStockSql);
-            $stmt->bindParam(':quantity', $item['quantity'], PDO::PARAM_INT);
-            $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
-            $stmt->execute();
+        $postData = http_build_query([
+            'secret' => $hCaptchaSecret,
+            'response' => $hCaptchaResponse
+        ]);
+        $opts = [
+            'http' => [
+                'method' => 'POST',
+                'header' => 'Content-type: application/x-www-form-urlencoded',
+                'content' => $postData
+            ]
+        ];
+        $context = stream_context_create($opts);
+        $response = file_get_contents('https://hcaptcha.com/siteverify', false, $context);
+        $result = json_decode($response);
 
-            // カートから削除
-            $stmt = $conn->prepare($removeFromCartSql);
-            $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
-            $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
-            $stmt->execute();
+        if (!$result->success) {
+            die("hCaptchaの検証に失敗しました。");
         }
-        $conn->commit();
 
-        // メール送信
-        $to = 'example@example.com'; // ここに送信先のメールアドレスを指定
-        $subject = '購入内容の確認';
-        $message = "以下の商品を購入しました。\n\n";
-        foreach ($cartItems as $item) {
-            $message .= $item['name'] . " - 数量: " . $item['quantity'] . " - 価格: " . $item['price'] . "円\n";
-        }
-        $message .= "\n合計金額: " . $totalAmount . "円";
-        $headers = 'From: webmaster@example.com' . "\r\n" .
-                   'Reply-To: webmaster@example.com' . "\r\n" .
-                   'X-Mailer: PHP/' . phpversion();
+        // 在庫を減らす
+        $updateStockSql = "UPDATE products SET stock = stock - :quantity WHERE product_id = :product_id";
+        $removeFromCartSql = "DELETE FROM cart WHERE user_id = :user_id AND product_id = :product_id";
 
-        if (mail($to, $subject, $message, $headers)) {
-            echo '購入確認メールが送信されました。';
-        } else {
-            echo 'メールの送信に失敗しました。';
+        $conn->beginTransaction();
+        try {
+            foreach ($cartItems as $item) {
+                // 在庫を減らす
+                $stmt = $conn->prepare($updateStockSql);
+                $stmt->bindParam(':quantity', $item['quantity'], PDO::PARAM_INT);
+                $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
+                $stmt->execute();
+
+                // カートから削除
+                $stmt = $conn->prepare($removeFromCartSql);
+                $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
+                $stmt->execute();
+            }
+            $conn->commit();
+
+            // メール送信
+            $to = 'example@example.com'; // ここに送信先のメールアドレスを指定
+            $subject = '購入内容の確認';
+            $message = "以下の商品を購入しました。\n\n";
+            foreach ($cartItems as $item) {
+                $message .= $item['name'] . " - 数量: " . $item['quantity'] . " - 価格: " . $item['price'] . "円\n";
+            }
+            $message .= "\n合計金額: " . $totalAmount . "円";
+            $headers = 'From: webmaster@example.com' . "\r\n" .
+                       'Reply-To: webmaster@example.com' . "\r\n" .
+                       'X-Mailer: PHP/' . phpversion();
+
+            if (mail($to, $subject, $message, $headers)) {
+                echo '購入確認メールが送信されました。';
+            } else {
+                echo 'メールの送信に失敗しました。';
+            }
+        } catch (PDOException $e) {
+            $conn->rollBack();
+            die("購入処理エラー: " . $e->getMessage());
         }
-    } catch (PDOException $e) {
-        $conn->rollBack();
-        die("購入処理エラー: " . $e->getMessage());
     }
 }
 ?>
@@ -113,6 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>購入ページ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
 </head>
 <body>
     <div class="container">
@@ -126,6 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </ul>
         <h3>合計金額: <?= htmlspecialchars($totalAmount) ?>円</h3>
         <form method="post">
+            <div class="h-captcha" data-sitekey="7d04e186-a1da-4570-8212-26b6e7fe32a4"></div> <!-- サイトキー -->
             <button type="submit" class="btn">購入する</button>
         </form>
     </div>
