@@ -50,6 +50,32 @@ try {
 } catch (PDOException $e) {
     die("ユーザー情報取得エラー: " . $e->getMessage());
 }
+
+// ユーザーのタグを取得
+$getTagsSql = "SELECT tag_id, tag FROM tags WHERE user_id = ?";
+try {
+    $stmt = $conn->prepare($getTagsSql);
+    $stmt->execute([$user_id]);
+    $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("タグ取得エラー: " . $e->getMessage());
+}
+
+// タグの削除
+if (isset($_POST['delete_tag'])) {
+    $tag_id = $_POST['tag_id'];
+    $deleteTagSql = "DELETE FROM tags WHERE tag_id = ?";
+    try {
+        $stmt = $conn->prepare($deleteTagSql);
+        $stmt->execute([$tag_id]);
+        // Refresh tags list after deletion
+        $stmt = $conn->prepare($getTagsSql);
+        $stmt->execute([$user_id]);
+        $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        die("タグ削除エラー: " . $e->getMessage());
+    }
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -76,6 +102,27 @@ try {
                 <button onclick="location.href='../index.php'">メインページへ</button>
             </div>
         </div>
+
+        <!-- タグ表示と削除フォーム -->
+        <div class="row">
+            <div class="col s12">
+                <h4>保存されているタグ</h4>
+                <ul class="collection">
+                    <?php foreach ($tags as $tag): ?>
+                        <li class="collection-item">
+                            <?php echo htmlspecialchars($tag['tag'], ENT_QUOTES, 'UTF-8'); ?>
+                            <form method="post" action="">
+                                <input type="hidden" name="tag_id" value="<?php echo $tag['tag_id']; ?>">
+                                <button type="submit" name="delete_tag" class="btn red darken-1 right">削除</button>
+                            </form>
+                        </li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
     </div>
+
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
