@@ -8,6 +8,29 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        // Function to generate and return canvas fingerprint
+        function generateCanvasFingerprint() {
+            var canvas = document.createElement('canvas');
+            var ctx = canvas.getContext('2d');
+            // Use a fixed width and height to ensure consistency
+            canvas.width = 200;
+            canvas.height = 50;
+            ctx.textBaseline = 'alphabetic';
+            ctx.fillStyle = '#f60';
+            ctx.fillRect(125, 1, 62, 20);
+            ctx.fillStyle = '#069';
+            ctx.font = '11pt Arial';
+            ctx.fillText('Canvas fingerprint', 2, 15);
+            ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+            ctx.font = '10pt Verdana';
+            ctx.fillText('Browser finger print', 2, 25);
+            ctx.strokeStyle = '#f60';
+            ctx.strokeRect(5, 5, 200, 50);
+            var txt = document.getElementById("fingerprint");
+            txt.value = canvas.toDataURL();
+        }
+    </script>
 </head>
 <body>
     <header>
@@ -26,7 +49,7 @@
     <main>
         <div class="container">
             <h2>ログイン</h2>
-            <form action="./login.php" method="post">
+            <form action="./login.php" method="post" onsubmit="generateCanvasFingerprint()">
                 <div class="input-field search">
                     <input type="email" name="email" id="email" required>
                     <label for="email">メールアドレス</label>
@@ -35,6 +58,7 @@
                     <input type="password" name="password" id="password" required>
                     <label for="password">パスワード</label>
                 </div>
+                <input type="hidden" name="fingerprint" id="fingerprint">
                 <button class="btn waves-effect waves-light" type="submit" name="action">ログイン</button>
             </form>
         </div>
