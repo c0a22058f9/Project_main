@@ -45,10 +45,23 @@ body {
   margin-left: 100px;
   font-weight:bold
 }
-.card .card-image img {
+.card-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.card-image img {
   height: 200px;
   object-fit: cover;
 }
+
+.card-action a {
+  display: block;
+  margin-top: auto;
+}
+
 a.btn_25 {
 display: flex;
 justify-content: center;
@@ -109,4 +122,51 @@ footer h5, footer p {
 .waves-effect.waves-light.btn:hover {
   background-color: #4a4e58; /* ホバー時の色を変更 */
   color: #fff;
+}
+
+/* レビューボックスのスタイル */
+.review {
+  background-color: #ffffff; /* 背景色を白に設定 */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px; /* マージンを増やして間隔を広げる */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を追加 */
+}
+
+/* レビューヘッダーのスタイル */
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.review-header .username {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+.review-header .created-at {
+  font-size: 0.9em;
+  color: #999;
+}
+
+/* レビュー評価のスタイル */
+.review-rating {
+  font-size: 1.1em;
+  color: #ffcc00; /* 星の色 */
+}
+
+.review-comment {
+  margin-top: 10px;
+  font-size: 1em;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* 星のアイコン */
+.fa-star {
+  color: #ffcc00;
+  margin-right: 5px;
 }
