@@ -15,7 +15,6 @@
             width: 50%;
             overflow: hidden;
         }
-
         .main-image-container img {
             width: 100%;
             height: auto;
@@ -83,8 +82,31 @@
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
+            
+            // Fetch fingerprint from local storage
+            let fingerprint = localStorage.getItem('fingerprint');
+            if (!fingerprint) {
+                // Generate fingerprint if not found
+                var canvas = document.createElement('canvas');
+                var ctx = canvas.getContext('2d');
+                canvas.width = 200;
+                canvas.height = 50;
+                ctx.textBaseline = 'alphabetic';
+                ctx.fillStyle = '#f60';
+                ctx.fillRect(125, 1, 62, 20);
+                ctx.fillStyle = '#069';
+                ctx.font = '11pt Arial';
+                ctx.fillText('Canvas fingerprint', 2, 15);
+                ctx.fillStyle = 'rgba(102, 204, 0, 0.7)';
+                ctx.font = '10pt Verdana';
+                ctx.fillText('Browser finger print', 2, 25);
+                ctx.strokeStyle = '#f60';
+                ctx.strokeRect(5, 5, 200, 50);
+                fingerprint = canvas.toDataURL();
+                localStorage.setItem('fingerprint', fingerprint);
+            }
 
-            fetch(`fetch_products.php?id=${productId}`)
+            fetch(`fetch_products.php?id=${productId}&fingerprint=${encodeURIComponent(fingerprint)}`)
                 .then(response => response.json())
                 .then(product => {
                     const container = document.getElementById('product-container');

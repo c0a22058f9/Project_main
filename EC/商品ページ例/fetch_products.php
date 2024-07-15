@@ -1,76 +1,93 @@
 <?php
-// データベース接続情報
+ini_set('display_errors', "On");
+error_reporting(E_ALL);
+session_start();
 $servername = "localhost";
 $username = "user1";
 $password = "passwordA1!";
 $dbname = "ecdatabase";
 
-// セッションの開始
-session_start();
-
-// データベース接続
-try {
-    $conn = new PDO("mysql:host=$servername;dbname=$dbname;charset=utf8", $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("接続失敗: " . $e->getMessage());
-}
-
-// セッションIDのチェック
-$session_id = session_id();
-if (empty($session_id)) {
-    die('セッションが存在しないか、無効です。');
-}
-
-// セッションIDからユーザーIDを取得
-$getUserIdSql = "SELECT user_id FROM sessions WHERE session_id = ?";
-try {
-    $stmt = $conn->prepare($getUserIdSql);
-    $stmt->execute([$session_id]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$user) {
-        die('有効なユーザーが見つかりません。');
+function OpenCon() {
+    global $servername, $username, $password, $dbname;
+    $conn = new mysqli($servername, $username, $password, $dbname);
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    $user_id = $user['user_id'];
-} catch (PDOException $e) {
-    die("ユーザーID取得エラー: " . $e->getMessage());
+    return $conn;
 }
 
-// 商品IDを取得
+function CloseCon($conn) {
+    $conn->close();
+}
+
+$conn = OpenCon();
 $product_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+$fingerprint = isset($_GET['fingerprint']) ? $_GET['fingerprint'] : null;
 
-// 商品情報を取得
-$sql = "SELECT product_id, name, price, description, stock, image1, image2, image3 FROM products WHERE product_id = ?";
-$stmt = $conn->prepare($sql);
-$stmt->bindParam(1, $product_id, PDO::PARAM_INT);
-$stmt->execute();
-$product = $stmt->fetch(PDO::FETCH_ASSOC);
+if ($product_id > 0) {
+    // Fetch product details from the database
+    $stmt = $conn->prepare("SELECT * FROM products WHERE product_id = ?");
+    if (!$stmt) {
+        echo json_encode(['error' => 'データベースエラー']);
+        exit;
+    }
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result) {
+        $product = $result->fetch_assoc();
+        if ($product) {
+            echo json_encode($product);
+        } else {
+            echo json_encode(['error' => '商品が見つかりません']);
+        }
+    } else {
+        echo json_encode(['error' => 'データベースクエリに失敗しました']);
+    }
+} else {
+    echo json_encode(['error' => '無効な商品ID']);
+}
 
-// タグを取得してユーザーのタグデータベースに保存
-$getTagsSql = "SELECT tag FROM products_tags WHERE product_id = ?";
-try {
-    $stmt = $conn->prepare($getTagsSql);
-    $stmt->execute([$product_id]);
-    $tags = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$user_id = null;
+if ($fingerprint) {
+    // fingerprintに基づいてユーザーIDを検索
+    $stmt = $conn->prepare("SELECT user_id FROM fingerprints WHERE fingerprint = ?");
+    $stmt->bind_param("s", $fingerprint);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($row = $result->fetch_assoc()) {
+        $user_id = $row['user_id'];
+    } else {
+        // ユーザーIDが見つからない場合、新しいfingerprintを追加
+        $stmt = $conn->prepare("INSERT INTO fingerprints (fingerprint) VALUES (?)");
+        $stmt->bind_param("s", $fingerprint);
+        $stmt->execute();
+        $user_id = $stmt->insert_id;
+    }
+}
 
-    foreach ($tags as $tag) {
-        // タグが既に存在するかチェック
-        $checkTagSql = "SELECT COUNT(*) FROM tags WHERE user_id = ? AND tag = ?";
-        $checkStmt = $conn->prepare($checkTagSql);
-        $checkStmt->execute([$user_id, $tag['tag']]);
-        $tagCount = $checkStmt->fetchColumn();
+if ($user_id) {
+    // Fetch tags associated with the product_id
+    $stmt = $conn->prepare("SELECT tag FROM products_tags WHERE product_id = ?");
+    $stmt->bind_param("i", $product_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    while ($row = $result->fetch_assoc()) {
+        $tag = $row['tag'];
 
-        if ($tagCount == 0) {
-            // タグが存在しない場合のみ挿入
-            $insertTagSql = "INSERT INTO tags (user_id, tag) VALUES (?, ?)";
-            $stmt = $conn->prepare($insertTagSql);
-            $stmt->execute([$user_id, $tag['tag']]);
+        // Check if the tag already exists for the user
+        $check_stmt = $conn->prepare("SELECT * FROM tags WHERE user_id = ? AND tag = ?");
+        $check_stmt->bind_param("is", $user_id, $tag);
+        $check_stmt->execute();
+        $check_result = $check_stmt->get_result();
+        if ($check_result->num_rows == 0) {
+            // If the tag doesn't exist, insert it
+            $insert_stmt = $conn->prepare("INSERT INTO tags (user_id, tag) VALUES (?, ?)");
+            $insert_stmt->bind_param("is", $user_id, $tag);
+            $insert_stmt->execute();
         }
     }
-} catch (PDOException $e) {
-    die("タグ取得・保存エラー: " . $e->getMessage());
 }
 
-// JSON形式で商品情報を返す
-echo json_encode($product);
+CloseCon($conn);
 ?>
