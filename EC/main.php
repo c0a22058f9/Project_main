@@ -99,61 +99,15 @@ try {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ショッピングサイトへようこそ</title>
+    <title>Le Lien Luxe</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <style>
-        body {
-            font-family: "SimSun";
-            background-image: url("./image/background.jpg");
-            background-color:rgba(255,255,255,0.8);
-            background-blend-mode:lighten;
-        }
-        .carousel .carousel-item {
-            height: 300px;
-        }
-        .carousel-item img {
-            height: 100%;
-            object-fit: cover;
-        }
-        .nav-wrapper {
-            background-image: url(./image/nav-background.jpg);
-        }
-        .nav-content {
-            background-color: #919191;
-            max-width: 1280px;
-            margin: 0 auto;
-            width: 70%;
-            text-align: center;
-        }
-        .padding {
-            padding-top: 30px;
-        }
-        .nav-font {
-            font-family: "SimSun";
-            margin-left: 100px;
-            font-weight:bold
-        }
-        .card .card-image img {
-            height: 200px;
-            object-fit: cover;
-        }
-        footer {
-            background-color: #232f3e;
-        }
-        footer h5, footer p {
-            color: white;
-        }
-        .disabled {
-            pointer-events: none;
-            opacity: 0.5;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a class="brand-logo black-text nav-font">ショッピングサイト</a>
+                <a class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <?php if (!empty($user_id)) : ?>
                         <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
@@ -169,16 +123,16 @@ try {
         </nav>
     </header>
     <main>
-        <div class="container">
-            <h2>Featured Products</h2>
+    <div class="container padding">
             <!-- Search Form -->
             <form action="search.php" method="GET">
-                <div class="input-field">
+                <div class="input-field search">
                     <input id="search" type="text" name="query" required>
                     <label for="search">商品を検索</label>
-                </div>
                 <button type="submit" class="waves-effect waves-light btn">検索</button>
+                </div>
             </form>
+
             <!-- Recommendation Carousel -->
             <div class="carousel carousel-slider center">
                 <div class="carousel-item" href="./image1.jpg">
@@ -257,17 +211,16 @@ try {
             <?php endif; ?>
         </div>
     </main>
-    <footer class="page-footer">
+    <footer>
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">Your Shopping Site</h5>
-                    <p class="grey-text text-lighten-4">ここにサイトの詳細情報を記載します。</p>
+                    <h5 class="white-text">Lélian Luxe</h5>
+                    <p class="grey-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
                 </div>
                 <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">リンク</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="main.html">ショッピング</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
                         <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
                         <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
                     </ul>
@@ -276,7 +229,7 @@ try {
         </div>
         <div class="footer-copyright">
             <div class="container">
-                &copy; 2022 Your Shopping Site. All rights reserved.
+                &copy; 2024 Shopping Site. All rights reserved.
             </div>
         </div>
     </footer>
