@@ -109,7 +109,7 @@ try {
             <div class="nav-wrapper">
                 <a href="main.html" class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="./cart/cart.html" class="waves-effect waves-light btn">商品カート</a></li>
+                    <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
                     <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
                     <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
@@ -233,7 +233,7 @@ try {
                 </div>
                 <div class="col l4 offset-l2 s12">
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./cart/cartview.php">商品カート</a></li>
                         <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
                         <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
                     </ul>
