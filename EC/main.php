@@ -1,4 +1,8 @@
 <?php
+//errorを表示
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 // データベース接続情報
 $servername = "localhost";
 $username = "user1";
@@ -24,14 +28,14 @@ if (empty($session_id)) {
 
 // セッションIDからユーザーIDを取得
 $getUserIdSql = "SELECT user_id FROM sessions WHERE session_id = ?";
+$user_id = null; // 初期化
 try {
     $stmt = $conn->prepare($getUserIdSql);
     $stmt->execute([$session_id]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$user) {
-        die('有効なユーザーが見つかりません。');
+    if ($user) {
+        $user_id = $user['user_id'];
     }
-    $user_id = $user['user_id'];
 } catch (PDOException $e) {
     die("ユーザーID取得エラー: " . $e->getMessage());
 }
@@ -93,26 +97,75 @@ try {
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <!-- Materialize CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ショッピングサイトへようこそ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            font-family: "SimSun";
+            background-image: url("./image/background.jpg");
+            background-color:rgba(255,255,255,0.8);
+            background-blend-mode:lighten;
+        }
+        .carousel .carousel-item {
+            height: 300px;
+        }
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-wrapper {
+            background-image: url(./image/nav-background.jpg);
+        }
+        .nav-content {
+            background-color: #919191;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 70%;
+            text-align: center;
+        }
+        .padding {
+            padding-top: 30px;
+        }
+        .nav-font {
+            font-family: "SimSun";
+            margin-left: 100px;
+            font-weight:bold
+        }
+        .card .card-image img {
+            height: 200px;
+            object-fit: cover;
+        }
+        footer {
+            background-color: #232f3e;
+        }
+        footer h5, footer p {
+            color: white;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav>
+    <nav>
             <div class="nav-wrapper">
-                <a href="#" class="brand-logo">ショッピングサイトへようこそ</a>
+                <a class="brand-logo black-text nav-font">ショッピングサイト</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="main.php" class="waves-effect waves-light btn">ショッピングへ</a></li>
+                    <li><a href="main.html" class="waves-effect waves-light btn">商品カート</a></li>
                     <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
                     <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
             </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a href="#all">すべての商品</a></li>
+                    <li class="tab"><a href="#new">新着商品</a></li>
+                    <li class="tab"><a href="#popular">人気商品</a></li>
+                    <li class="tab"><a href="#sale">セール商品</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
-    
     <main>
         <div class="container">
             <h2>Featured Products</h2>
@@ -126,21 +179,25 @@ try {
             </form>
             <!-- Recommendation Carousel -->
             <div class="carousel carousel-slider center">
-                <div class="carousel-item red white-text" href="#one!">
-                    <h2>1</h2>
-                    <p class="white-text">カーセル1</p>
+                <div class="carousel-item" href="./image1.jpg">
+                    <img src="./image1.jpg" alt="商品1">
+                    <h2 class="white-text">商品1</h2>
+                    <p class="white-text">おすすめ商品1</p>
                 </div>
-                <div class="carousel-item amber white-text" href="#two!">
-                    <h2>2</h2>
-                    <p class="white-text">カーセル2</p>
+                <div class="carousel-item" href="./image2.jpg">
+                    <img src="./image2.jpg" alt="商品2">
+                    <h2 class="white-text">商品2</h2>
+                    <p class="white-text">おすすめ商品2</p>
                 </div>
-                <div class="carousel-item green white-text" href="#three!">
-                    <h2>3</h2>
-                    <p class="white-text">カーセル3</p>
+                <div class="carousel-item" href="./image3.jpg">
+                    <img src="./image3.jpg" alt="商品3">
+                    <h2 class="white-text">商品3</h2>
+                    <p class="white-text">おすすめ商品3</p>
                 </div>
-                <div class="carousel-item blue white-text" href="#four!">
-                    <h2>4</h2>
-                    <p class="white-text">カーセル4</p>
+                <div class="carousel-item" href="./image4.jpg">
+                    <img src="./image4.jpg" alt="商品4">
+                    <h2 class="white-text">商品4</h2>
+                    <p class="white-text">おすすめ商品4</p>
                 </div>
             </div>
             <!-- Products Display -->
@@ -205,10 +262,20 @@ try {
                     <h5 class="white-text">Your Shopping Site</h5>
                     <p class="grey-text text-lighten-4">ここにサイトの詳細情報を記載します。</p>
                 </div>
+                <div class="col l4 offset-l2 s12">
+                    <h5 class="white-text">リンク</h5>
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="main.html">ショッピング</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
+                        <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
-        <div class="container">
-            &copy; 2022 Your Shopping Site. All rights reserved.
+        <div class="footer-copyright">
+            <div class="container">
+                &copy; 2022 Your Shopping Site. All rights reserved.
+            </div>
         </div>
     </footer>
     <script>
