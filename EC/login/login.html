@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://hcaptcha.com/1/api.js" async defer></script>
     <script>
-        // Function to generate and return canvas fingerprint
         function generateCanvasFingerprint() {
             var canvas = document.createElement('canvas');
             var ctx = canvas.getContext('2d');
-            // Use a fixed width and height to ensure consistency
             canvas.width = 200;
             canvas.height = 50;
             ctx.textBaseline = 'alphabetic';
@@ -59,6 +58,7 @@
                     <label for="password">パスワード</label>
                 </div>
                 <input type="hidden" name="fingerprint" id="fingerprint">
+                <div class="h-captcha" data-sitekey="7d04e186-a1da-4570-8212-26b6e7fe32a4"></div>
                 <button class="btn waves-effect waves-light" type="submit" name="action">ログイン</button>
             </form>
         </div>
