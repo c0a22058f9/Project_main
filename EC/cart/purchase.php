@@ -38,6 +38,20 @@ try {
     die("ユーザーID取得エラー: " . $e->getMessage());
 }
 
+// user_idからemailを取得
+$getUserEmailSql = "SELECT email FROM users WHERE user_id = ?";
+try {
+    $stmt = $conn->prepare($getUserEmailSql);
+    $stmt->execute([$user_id]);
+    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    if (!$user) {
+        die('有効なメールアドレスが見つかりません。');
+    }
+    $email = $user['email'];
+} catch (PDOException $e) {
+    die("メールアドレス取得エラー: " . $e->getMessage());
+}
+
 // user_idを元に商品と個数を取得するクエリ
 $getCartItemsSql = "SELECT c.product_id, p.name, c.quantity, p.price, p.stock
                    FROM cart c
@@ -84,9 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = json_decode($response);
 
         if (!$result->success) {
-            //hCaptchaの検証に失敗しました。とメッセージボックスで表示
+            // hCaptchaの検証に失敗しました。とメッセージボックスで表示
             echo '<script>alert("hCaptchaの検証に失敗しました。");</script>';
-            //カートのPageへリダイレクト
+            // カートのPageへリダイレクト
             header('Location: cartview.php');
         }
 
@@ -112,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->commit();
 
             // メール送信
-            $to = 'example@example.com'; // ここに送信先のメールアドレスを指定
+            $to = $email; // ここに取得したメールアドレスを使用
             $subject = '購入内容の確認';
             $message = "以下の商品を購入しました。\n\n";
             foreach ($cartItems as $item) {
@@ -141,25 +155,71 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>購入ページ</title>
+    <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        .receipt {
+            font-family: 'Courier New', Courier, monospace;
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 80%;
+            margin: auto;
+            margin-top: 50px;
+        }
+        .receipt-header, .receipt-footer {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .receipt-items {
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+        }
+        .receipt-item {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+    <!-- hCaptcha -->
     <script src="https://hcaptcha.com/1/api.js" async defer></script>
 </head>
-<body>
+<body class="grey lighten-4">
+    <!-- Navbar -->
+    <nav>
+        <div class="nav-wrapper teal darken-1">
+            <div class="container">
+                <a href="#" class="brand-logo">購入確認ページ</a>
+            </div>
+        </div>
+    </nav>
+
     <div class="container">
-        <h2>購入内容の確認</h2>
-        <ul class="collection">
-            <?php foreach ($cartItems as $item): ?>
-                <li class="collection-item">
-                    <?= htmlspecialchars($item['name']) ?> - 数量: <?= htmlspecialchars($item['quantity']) ?> - 価格: <?= htmlspecialchars($item['price']) ?>円
-                </li>
-            <?php endforeach; ?>
-        </ul>
-        <h3>合計金額: <?= htmlspecialchars($totalAmount) ?>円</h3>
-        <form method="post">
-            <div class="h-captcha" data-sitekey="7d04e186-a1da-4570-8212-26b6e7fe32a4"></div> <!-- サイトキー -->
-            <button type="submit" class="btn">購入する</button>
+        <h2 class="center-align">購入内容の確認</h2>
+        <div class="receipt z-depth-2">
+            <div class="receipt-header">
+                <h4>レシート</h4>
+            </div>
+            <div class="receipt-items">
+                <?php foreach ($cartItems as $item): ?>
+                    <div class="receipt-item">
+                        <span><?= htmlspecialchars($item['name']) ?> - 数量: <?= htmlspecialchars($item['quantity']) ?></span>
+                        <span><?= htmlspecialchars($item['price']) ?>円</span>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <div class="receipt-footer">
+                <h5 class="center-align">合計金額: <?= htmlspecialchars($totalAmount) ?>円</h5>
+            </div>
+        </div>
+        <form method="post" class="center-align">
+            <div class="h-captcha" data-sitekey="7d04e186-a1da-4570-8212-26b6e7fe32a4"></div> <!-- hCaptchaのサイトキー -->
+            <button type="submit" class="btn waves-effect waves-light">購入する</button>
         </form>
     </div>
+    <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
+
