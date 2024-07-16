@@ -99,7 +99,7 @@ if (isset($_POST['delete_tag'])) {
                 <p><strong>住所:</strong> <?php echo htmlspecialchars($userInfo['address'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($userInfo['email'], ENT_QUOTES, 'UTF-8'); ?></p>
                 <button onclick="location.href='update_user_info.php'">編集</button>
-                <button onclick="location.href='../index.php'">メインページへ</button>
+                <button onclick="location.href='../index.html'">メインページへ</button>
             </div>
         </div>
 
