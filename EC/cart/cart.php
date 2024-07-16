@@ -1,6 +1,6 @@
 <?php
-// エラーを表示
-ini_set('display_errors', "On");
+// エラーを表示しない
+ini_set('display_errors', "Off");
 error_reporting(E_ALL);
 session_start();
 define('DSN', 'mysql:host=localhost;dbname=ecdatabase;charset=utf8');
@@ -35,10 +35,6 @@ try {
     die("ユーザーID取得エラー: " . $e->getMessage());
 }
 
-// デバッグ用: セッションIDとユーザーIDの確認
-echo "セッションID: " . $session_id . "<br>";
-echo "ユーザーID: " . $user_id . "<br>";
-
 // cartテーブルが存在しない場合に自動で作成（quantityカラムを追加）
 $createCartTable = "
     CREATE TABLE IF NOT EXISTS cart (
@@ -69,7 +65,54 @@ $insertCartSql = "
 try {
     $stmt = $conn->prepare($insertCartSql);
     $stmt->execute([$user_id, $product_id, $quantity]);
-    echo "商品がカートに追加されました。";
+    // 商品がカートに追加された後に、購入完了ページを表示し、数秒後に元のページに戻る
+    ?>
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="refresh" content="1;URL=<?php echo $_SERVER['HTTP_REFERER']; ?>">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ご購入ありがとうございます</title>
+        <!-- Materialize CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+        <style>
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+            }
+            .container {
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="blue-text text-darken-1">商品をカートに追加しました。</h1>
+            <p class="flow-text">数秒後に自動で元のページにリダイレクトします。</p>
+            <div class="preloader-wrapper active">
+                <div class="spinner-layer spinner-blue-only">
+                    <div class="circle-clipper left">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="gap-patch">
+                        <div class="circle"></div>
+                    </div>
+                    <div class="circle-clipper right">
+                        <div class="circle"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Materialize JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    </body>
+    </html>
+    <?php
+    exit(); // リダイレクト後にスクリプトの実行を終了する
 } catch (PDOException $e) {
     die("実行エラー: " . $e->getMessage());
 }
