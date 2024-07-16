@@ -131,17 +131,19 @@ try {
         .nav-font {
             font-family: "SimSun";
             margin-left: 100px;
-            font-weight:bold
+            font-weight:bold;
         }
         .card .card-image img {
             height: 200px;
             object-fit: cover;
         }
+
         footer {
-            background-color: #232f3e;
+            background-color: #828e9c;
         }
+
         footer h5, footer p {
-            color: white;
+            color: black;
         }
         .disabled {
             pointer-events: none;
@@ -153,7 +155,7 @@ try {
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a class="brand-logo black-text nav-font">ショッピングサイト</a>
+                <a class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <?php if (!empty($user_id)) : ?>
                         <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
@@ -168,42 +170,45 @@ try {
             </div>
         </nav>
     </header>
+    
     <main>
-        <div class="container">
-            <h2>Featured Products</h2>
+        <div class="container padding">
             <!-- Search Form -->
             <form action="search.php" method="GET">
-                <div class="input-field">
+                <div class="input-field search">
                     <input id="search" type="text" name="query" required>
                     <label for="search">商品を検索</label>
-                </div>
                 <button type="submit" class="waves-effect waves-light btn">検索</button>
+                </div>
             </form>
+
+            <h2 class="center-align">おすすめ商品</h2>
             <!-- Recommendation Carousel -->
-            <div class="carousel carousel-slider center">
-                <div class="carousel-item" href="./image1.jpg">
-                    <img src="./image1.jpg" alt="商品1">
+            <div class="carousel carousel-slider center slide-image">
+                <div class="carousel-item" href="./shouhin.html">
+                    <img src="./shoulderbag.png" alt="商品1">
                     <h2 class="white-text">商品1</h2>
                     <p class="white-text">おすすめ商品1</p>
                 </div>
                 <div class="carousel-item" href="./image2.jpg">
-                    <img src="./image2.jpg" alt="商品2">
+                    <img src="./clutchbag.png" alt="商品2">
                     <h2 class="white-text">商品2</h2>
                     <p class="white-text">おすすめ商品2</p>
                 </div>
                 <div class="carousel-item" href="./image3.jpg">
-                    <img src="./image3.jpg" alt="商品3">
+                    <img src="./briefcase.png" alt="商品3">
                     <h2 class="white-text">商品3</h2>
                     <p class="white-text">おすすめ商品3</p>
                 </div>
                 <div class="carousel-item" href="./image4.jpg">
-                    <img src="./image4.jpg" alt="商品4">
+                    <img src="./shoulderbag.png" alt="商品4">
                     <h2 class="white-text">商品4</h2>
                     <p class="white-text">おすすめ商品4</p>
                 </div>
             </div>
-            <!-- Products Display -->
+
             <div class="row">
+                <!-- 商品表示 -->
                 <?php
                 require './login/database_config.php';
                 $uploadDir = './商品ページ例';
@@ -261,22 +266,21 @@ try {
         <div class="container">
             <div class="row">
                 <div class="col l6 s12">
-                    <h5 class="white-text">Your Shopping Site</h5>
-                    <p class="grey-text text-lighten-4">ここにサイトの詳細情報を記載します。</p>
+                    <h5 class="black-text">Le Lien Luxe</h5>
+                    <p class="black-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
                 </div>
                 <div class="col l4 offset-l2 s12">
-                    <h5 class="white-text">リンク</h5>
                     <ul>
-                        <li><a class="grey-text text-lighten-3" href="main.html">ショッピング</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
+                        <li><a class="black-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
+                        <li><a class="black-text text-lighten-3" href="./login/login.html">ログイン</a></li>
+                        <li><a class="black-text text-lighten-3" href="./login/register.html">新規登録</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="footer-copyright">
             <div class="container">
-                &copy; 2022 Your Shopping Site. All rights reserved.
+                &copy; 2024 Shopping Site. All rights reserved.
             </div>
         </div>
     </footer>

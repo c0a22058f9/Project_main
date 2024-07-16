@@ -4,6 +4,7 @@ body {
   background-color:rgba(255,255,255,0.8);
   background-blend-mode:lighten;
 }
+
 .carousel .carousel-item {
   height: 300px;
 }
@@ -31,20 +32,21 @@ body {
 }
 
 .slide-image {
-  width: 100%; /* 画像の幅を100%に設定 */
-  height: 20%; /* 画像の高さを100%に設定 */
-  object-fit: contain; /* 画像がコンテナ内に収まるように縮尺 */
+  width: 100%;
+  height: 20%;
+  object-fit: contain;
 }
 
 .button-color {
   background-color :#919191;
-  
 }
+
 .nav-font {
   font-family: "SimSun";
   margin-left: 100px;
-  font-weight:bold
+  font-weight:bold;
 }
+
 .card-content {
   display: flex;
   flex-direction: column;
@@ -52,6 +54,7 @@ body {
   height: 100%;
 }
 
+.card .card-image img,
 .card-image img {
   height: 200px;
   object-fit: cover;
@@ -63,75 +66,77 @@ body {
 }
 
 a.btn_25 {
-display: flex;
-justify-content: center;
-align-items: center;
-position: relative;
-overflow: hidden;
-text-decoration: none;
-height: 4rem;
-width: 120px;
-margin: auto;
-padding: 0 4rem;
-border-radius: 100vw;
-background: #6a6e78;
-background-size: 400%;
-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  text-decoration: none;
+  height: 4rem;
+  width: 120px;
+  margin: auto;
+  padding: 0 4rem;
+  border-radius: 100vw;
+  background: #6a6e78;
+  background-size: 400%;
+  color: #fff;
 }
 a.btn_25:hover::before {
-transform: scaleX(1);
+  transform: scaleX(1);
 }
 a.btn_25:hover {
-color: #fff;
+  color: #fff;
 }
 a.btn_25 span {
-position: relative;
-z-index: 1;
+  position: relative;
+  z-index: 1;
 }
 a.btn_25::before {
-content: '';
-position: absolute;
-top: 0;
-left: 0;
-transform: scaleX(0);
-transform-origin: 0 50%;
-width: 100%;
-height: inherit;
-border-radius: inherit;
-background: linear-gradient(
-  82.3deg,
-  rgba(39, 172, 217, 1) 10.8%,
-  rgba(18, 83, 229, 1) 94.3%
-);
-transition: all 0.475s;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  width: 100%;
+  height: inherit;
+  border-radius: inherit;
+  background: linear-gradient(
+    82.3deg,
+    rgba(39, 172, 217, 1) 10.8%,
+    rgba(18, 83, 229, 1) 94.3%
+  );
+  transition: all 0.475s;
 }
+
 footer {
   background-color: #828e9c;
 }
+
 footer h5, footer p {
-  color: white;
+  color: black;
 }
 
 /* 共通のボタンスタイル */
 .waves-effect.waves-light.btn {
-  background-color: #6a6e78; /* 変更したい色にここを変更 */
+  background-color: #6a6e78;
   color: #fff;
 }
 
 /* ホバー時のスタイル */
 .waves-effect.waves-light.btn:hover {
-  background-color: #4a4e58; /* ホバー時の色を変更 */
+  background-color: #4a4e58;
   color: #fff;
 }
 
 /* レビューボックスのスタイル */
 .review {
-  background-color: #ffffff; /* 背景色を白に設定 */
+  background-color: #ffffff;
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 20px;
-  margin-bottom: 20px; /* マージンを増やして間隔を広げる */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 影を追加 */
+  margin-bottom: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* レビューヘッダーのスタイル */
@@ -155,7 +160,7 @@ footer h5, footer p {
 /* レビュー評価のスタイル */
 .review-rating {
   font-size: 1.1em;
-  color: #ffcc00; /* 星の色 */
+  color: #ffcc00;
 }
 
 .review-comment {
