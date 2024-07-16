@@ -84,7 +84,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $result = json_decode($response);
 
         if (!$result->success) {
-            die("hCaptchaの検証に失敗しました。");
+            //hCaptchaの検証に失敗しました。とメッセージボックスで表示
+            echo '<script>alert("hCaptchaの検証に失敗しました。");</script>';
+            //カートのPageへリダイレクト
+            header('Location: cartview.php');
         }
 
         // 在庫を減らす
@@ -121,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                        'X-Mailer: PHP/' . phpversion();
 
             if (mail($to, $subject, $message, $headers)) {
-                echo '購入確認メールが送信されました。';
+                header('Location: ./thanks_buy.html');
             } else {
                 echo 'メールの送信に失敗しました。';
             }
