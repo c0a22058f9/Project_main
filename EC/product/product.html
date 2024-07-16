@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品詳細</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- FontAwesome -->
+</head>    
+<body>
+    <header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="../main.html" class="brand-logo black-text nav-font">Le Lien Luxe</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="../cart/cart.html" class="waves-effect waves-light btn">商品カート</a></li>
+                    <li><a href="../login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="../login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                </ul>
+            </div>
+            <div class="nav-content">
+                <ul class="tabs tabs-transparent">
+                    <li class="tab"><a href="#all">すべての商品</a></li>
+                    <li class="tab"><a href="#new">新着商品</a></li>
+                    <li class="tab"><a href="#popular">人気商品</a></li>
+                    <li class="tab"><a href="#sale">セール商品</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="container padding">
+            <h2 class="center-align">商品詳細</h2>
+            <!-- 商品詳細情報をここに表示 -->
+            <div id="productDetails" class="row">
+                <!-- 商品詳細はここに挿入されます -->
+            </div>
+
+            <!-- レビュー表示 -->
+            <h3 class="center-align">レビュー</h3>
+            <div id="reviews">
+                <!-- レビューはここに挿入されます -->
+            </div>
+
+            <!-- レビュー投稿フォーム -->
+            <h3 class="center-align">レビューを投稿する</h3>
+            <form id="reviewForm" class="col s12" method="post" action="submit_review.php">
+                <input type="hidden" name="product_id" id="product_id">
+                <div class="input-field col s12">
+                    <select name="rating" id="rating">
+                        <option value="" disabled selected>評価を選択</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                    <label for="rating">評価</label>
+                </div>
+                <div class="input-field col s12">
+                    <textarea id="comment" name="comment" class="materialize-textarea"></textarea>
+                    <label for="comment">コメント</label>
+                </div>
+                <button type="submit" class="waves-effect waves-light btn">投稿する</button>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col l6 s12">
+                    <h5 class="white-text">Le Lien Luxe</h5>
+                    <p class="grey-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
+                </div>
+                <div class="col l4 offset-l2 s12">
+                    <ul>
+                        <li><a class="grey-text text-lighten-3" href="../cart/cart.html">商品カート</a></li>
+                        <li><a class="grey-text text-lighten-3" href="../login/login.html">ログイン</a></li>
+                        <li><a class="grey-text text-lighten-3" href="../login/register.html">新規登録</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="footer-copyright">
+                &copy; 2024 Shopping Site. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="../scripts.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', function() {
+    M.AutoInit(); // Initialize Materialize components
+
+    var productId = new URLSearchParams(window.location.search).get('id');
+    console.log("Product ID from URL: ", productId);  // デバッグ用出力
+    document.getElementById('product_id').value = productId;
+
+    // 商品詳細情報の取得
+    fetch('fetch_products.php?id=' + productId)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log("Product details: ", data);  // デバッグ用出力
+            if (data) {
+                var productDetails = `
+                    <div class="col s12 m6">
+                        <img src="..${data.image1}" alt="${data.name}" class="responsive-img">
+                    </div>
+                    <div class="col s12 m6">
+                        <h4>${data.name}</h4>
+                        <p>${data.description}</p>
+                        <p>価格: ¥${data.price}</p>
+                        <p>在庫数: ${data.stock}</p>
+                        <a href="../cart/add_to_cart.php?id=${data.product_id}" class="waves-effect waves-light btn">カートに追加</a>
+                    </div>
+                `;
+                document.getElementById('productDetails').innerHTML = productDetails;
+            } else {
+                document.getElementById('productDetails').innerHTML = '<p>商品が見つかりません。</p>';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching product details:', error);
+            document.getElementById('productDetails').innerHTML = '<p>商品情報の取得に失敗しました。</p>';
+        });
+
+    // レビューの取得
+fetch('fetch_reviews.php?product_id=' + productId)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log("Fetched reviews: ", data);  // デバッグ用出力
+        var reviews = '';
+        if (!Array.isArray(data)) {
+            reviews = '<p>レビューの取得に失敗しました。</p>';
+        } else if (data.length === 0) {
+            reviews = '<p>レビューはまだありません。</p>';
+        } else {
+            data.forEach(review => {
+                let stars = '';
+                for (let i = 0; i < review.rating; i++) {
+                    stars += '<i class="fas fa-star"></i>';
+                }
+                // XSS脆弱性を追加するために、コメントをエスケープせずそのまま表示
+                reviews += `
+                    <div class="review">
+                        <div class="review-header">
+                            <span class="username">${review.username}</span>
+                            <span class="created-at">${review.created_at}</span>
+                        </div>
+                        <div class="review-rating">${stars} (${review.rating} / 5)</div>
+                        <div class="review-comment">${review.comment}</div>
+                    </div>
+                `;
+            });
+        }
+        document.getElementById('reviews').innerHTML = reviews; // innerHTMLを使用してHTMLとして挿入
+    })
+    .catch(error => {
+        console.error('Error fetching reviews:', error);
+        document.getElementById('reviews').innerHTML = '<p>レビューの取得に失敗しました。</p>';
+    });
+
+
+    // レビュー投稿フォームの送信
+    document.getElementById('reviewForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        var formData = new FormData(this);
+        console.log("Form Data: ", Array.from(formData.entries()));  // デバッグ用出力
+        fetch('submit_review.php', {
+            method: 'POST',
+            body: formData
+        }).then(response => response.json()).then(data => {
+            if (data.success) {
+                alert('レビューが投稿されました！');
+                location.reload(); // ページをリロードしてレビューを更新
+            } else {
+                alert('エラーが発生しました: ' + data.message);
+            }
+        }).catch(error => {
+            console.error('Error:', error);
+            alert('エラーが発生しました: ' + error.message);
+        });
+    });
+});
+</script>
+
+</body>
+</html>

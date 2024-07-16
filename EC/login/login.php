@@ -61,7 +61,7 @@ try {
             $insert_stmt->execute();
         }
     
-        header('Location: ../index.html'); // メインページへリダイレクト
+        header('Location: ../main.html'); // メインページへリダイレクト
         exit;
     } else {
         die('ログイン情報が正しくありません。');
