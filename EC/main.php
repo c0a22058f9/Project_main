@@ -107,7 +107,7 @@ try {
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="main.html" class="brand-logo black-text nav-font">Le Lien Luxe</a>
+                <a href="main.php" class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
                     <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>

@@ -97,7 +97,7 @@ try {
             <div class="nav-wrapper">
                 <a href="#" class="brand-logo">ショッピングサイトへようこそ</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ</a></li>
+                    <li><a href="main.php" class="waves-effect waves-light btn">ショッピングへ</a></li>
                     <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
                     <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
