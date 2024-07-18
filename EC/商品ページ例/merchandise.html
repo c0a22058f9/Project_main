@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>商品詳細</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!--Material font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="../styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
@@ -63,18 +65,23 @@
     <div class="review-container">
         <hr>
         <h3>レビュー</h3>
-        <div class="search">
-        <form action="review.html" method="post">
-            <input id="search" type="text" name="name" placeholder="名前を入力してください">
-            <input id="search" type="text" name="review" placeholder="レビューを入力してください">
-        </div>
+        <form action="review.php" method="post">
+            <div class="input-field">
+                <input id="name" type="text" name="name" class="validate" required>
+                <label for="name">名前</label>
+            </div>
+            <div class="input-field">
+                <textarea id="review" name="review" class="materialize-textarea" required></textarea>
+                <label for="review">レビュー</label>
+            </div>
+            <input type="hidden" name="product_id" id="product_id" value="">
             <button class="btn waves-effect waves-light" type="submit" name="action">レビューを投稿
-                <i class="material-icons right"></i>
+                <i class="material-icons right">send</i>
             </button>
         </form>
         <hr>
-        <div class="review">
-            <p>レビューがありません</p>
+        <div id="reviews-list">
+            <!-- レビューが動的に挿入されます -->
         </div>
     </div>
 
@@ -89,7 +96,8 @@
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
-            
+            document.getElementById('product_id').value = productId;
+
             // Fetch fingerprint from local storage
             let fingerprint = localStorage.getItem('fingerprint');
             if (!fingerprint) {
@@ -154,6 +162,31 @@
                         container.innerHTML = `<p>商品が見つかりませんでした。</p>`;
                     }
                 });
+
+            // レビューを取得して表示する関数
+            function fetchAndDisplayReviews() {
+                const productId = new URLSearchParams(window.location.search).get('id');
+                fetch(`review.php?product_id=${productId}`)
+                    .then(response => response.json())
+                    .then(reviews => {
+                        const reviewsList = document.getElementById('reviews-list');
+                        if (reviews.length > 0) {
+                            let html = '';
+                            reviews.forEach(review => {
+                                html += `<div class="review">
+                                    <h5>${review.username}</h5>
+                                    <p>${review.comment}</p>
+                                    <p>投稿日: ${new Date(review.created_at).toLocaleDateString()}</p>
+                                </div>`;
+                            });
+                            reviewsList.innerHTML = html;
+                        } else {
+                            reviewsList.innerHTML = '<p>レビューはまだありません。</p>';
+                        }
+                    });
+            }
+
+            fetchAndDisplayReviews();
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
