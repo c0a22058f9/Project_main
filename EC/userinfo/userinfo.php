@@ -82,42 +82,64 @@ if (isset($_POST['delete_tag'])) {
 <head>
     <meta charset="UTF-8">
     <title>ユーザー情報</title>
+    <!-- Materialize CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        .collection-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
+    <!-- Navbar -->
     <nav>
-        <div class="nav-wrapper">
-            <a href="#" class="brand-logo center">ユーザー情報</a>
+        <div class="nav-wrapper teal darken-1">
+            <div class="container">
+                <a href="#" class="brand-logo center">ユーザー情報</a>
+            </div>
         </div>
     </nav>
+
     <div class="container">
         <div class="row">
             <div class="col s12">
-                <h4>ユーザー情報</h4>
-                <p><strong>氏名:</strong> <?php echo htmlspecialchars($userInfo['last_name'] . ' ' . $userInfo['first_name'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>生年月日:</strong> <?php echo htmlspecialchars($userInfo['birthday'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>住所:</strong> <?php echo htmlspecialchars($userInfo['address'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($userInfo['email'], ENT_QUOTES, 'UTF-8'); ?></p>
-                <button onclick="location.href='update_user_info.php'">編集</button>
-                <button onclick="location.href='../index.html'">メインページへ</button>
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">ユーザー情報</span>
+                        <p><strong>氏名:</strong> <?php echo htmlspecialchars($userInfo['last_name'] . ' ' . $userInfo['first_name'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><strong>生年月日:</strong> <?php echo htmlspecialchars($userInfo['birthday'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><strong>住所:</strong> <?php echo htmlspecialchars($userInfo['address'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($userInfo['email'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <button class="btn waves-effect waves-light" onclick="location.href='update_user_info.php'">編集</button>
+                        <button class="btn waves-effect waves-light" onclick="location.href='../index.html'">メインページへ</button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- タグ表示と削除フォーム -->
         <div class="row">
             <div class="col s12">
-                <h4>保存されているタグ</h4>
-                <ul class="collection">
-                    <?php foreach ($tags as $tag): ?>
-                        <li class="collection-item">
-                            <?php echo htmlspecialchars($tag['tag'], ENT_QUOTES, 'UTF-8'); ?>
-                            <form method="post" action="">
-                                <input type="hidden" name="tag_id" value="<?php echo $tag['tag_id']; ?>">
-                                <button type="submit" name="delete_tag" class="btn red darken-1 right">削除</button>
-                            </form>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title">保存されているタグ</span>
+                        <ul class="collection">
+                            <?php foreach ($tags as $tag): ?>
+                                <li class="collection-item">
+                                    <span><?php echo htmlspecialchars($tag['tag'], ENT_QUOTES, 'UTF-8'); ?></span>
+                                    <form method="post" action="">
+                                        <input type="hidden" name="tag_id" value="<?php echo $tag['tag_id']; ?>">
+                                        <button type="submit" name="delete_tag" class="btn-floating btn-small waves-effect waves-light red"><i class="material-icons">delete</i></button>
+                                    </form>
+                                </li>
+                            <?php endforeach; ?>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
