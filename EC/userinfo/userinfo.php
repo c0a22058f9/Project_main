@@ -38,13 +38,13 @@ try {
     die("ユーザーID取得エラー: " . $e->getMessage());
 }
 
-// ユーザー情報を取得
-$getUserInfoSql = "SELECT last_name, first_name, birthday, address, email FROM users WHERE user_id = ?";
+// SQLインジェクションを可能にするため、直接SQL文を組み立てる
+$user_id = isset($_GET['user_id']) ? $_GET['user_id'] : $user_id; // SQLインジェクションのために変更
+$getUserInfoSql = "SELECT user_id, last_name, first_name, birthday, address, email FROM users WHERE user_id = $user_id"; // 脆弱なクエリ
 try {
-    $stmt = $conn->prepare($getUserInfoSql);
-    $stmt->execute([$user_id]);
-    $userInfo = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (!$userInfo) {
+    $stmt = $conn->query($getUserInfoSql); // prepareではなくqueryを使用
+    $userInfoList = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    if (!$userInfoList) {
         die('ユーザー情報が見つかりません。');
     }
 } catch (PDOException $e) {
@@ -110,10 +110,12 @@ if (isset($_POST['delete_tag'])) {
                 <div class="card">
                     <div class="card-content">
                         <span class="card-title">ユーザー情報</span>
-                        <p><strong>氏名:</strong> <?php echo htmlspecialchars($userInfo['last_name'] . ' ' . $userInfo['first_name'], ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>生年月日:</strong> <?php echo htmlspecialchars($userInfo['birthday'], ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>住所:</strong> <?php echo htmlspecialchars($userInfo['address'], ENT_QUOTES, 'UTF-8'); ?></p>
-                        <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($userInfo['email'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php foreach ($userInfoList as $userInfo): ?>
+                            <p><strong>氏名:</strong> <?php echo htmlspecialchars($userInfo['last_name'] . ' ' . $userInfo['first_name'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>生年月日:</strong> <?php echo htmlspecialchars($userInfo['birthday'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>住所:</strong> <?php echo htmlspecialchars($userInfo['address'], ENT_QUOTES, 'UTF-8'); ?></p>
+                            <p><strong>メールアドレス:</strong> <?php echo htmlspecialchars($userInfo['email'], ENT_QUOTES, 'UTF-8'); ?></p>
+                        <?php endforeach; ?>
                         <button class="btn waves-effect waves-light" onclick="location.href='update_user_info.php'">編集</button>
                         <button class="btn waves-effect waves-light" onclick="location.href='../index.html'">メインページへ</button>
                     </div>
