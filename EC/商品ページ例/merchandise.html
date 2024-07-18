@@ -128,12 +128,12 @@
                     if (product) {
                         container.innerHTML = `
                             <div class="thumbnail-container">
-                                <img src=".${product.image1}" alt="商品画像1" onclick="changeMainImage('.${product.image1}', this)" class="selected">
-                                <img src=".${product.image2}" alt="商品画像2" onclick="changeMainImage('.${product.image2}', this)">
-                                <img src=".${product.image3}" alt="商品画像3" onclick="changeMainImage('.${product.image3}', this)">
+                                <img src="${product.image1}" alt="商品画像1" onclick="changeMainImage('${product.image1}', this)" class="selected">
+                                <img src="${product.image2}" alt="商品画像2" onclick="changeMainImage('${product.image2}', this)">
+                                <img src="${product.image3}" alt="商品画像3" onclick="changeMainImage('${product.image3}', this)">
                             </div>
                             <div class="main-image-container">
-                                <img id="main-image" src=".${product.image1}" alt="商品画像">
+                                <img id="main-image" src="${product.image1}" alt="商品画像">
                             </div>
                             <div class="Product-Description">
                                 <h3>${product.name}</h3>
