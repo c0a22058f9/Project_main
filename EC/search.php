@@ -11,7 +11,7 @@ $pdo = new PDO(DSN, DB_USER, DB_PASS);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 //画像のアップロード先ディレクトリ
-$uploadDir = './商品ページ例';
+$uploadDir = './商品ページ例/';
 //商品ページ
 $merchandise = './商品ページ例/merchandise.html';
 
