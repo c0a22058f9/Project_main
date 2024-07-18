@@ -86,6 +86,17 @@ if (!empty($query)) {
             pointer-events: none;
             opacity: 0.5;
         }
+		/* 共通のボタンスタイル */
+    	.waves-effect.waves-light.btn {
+    	  background-color: #6a6e78; /* 変更したい色にここを変更 */
+    	  color: #fff;
+    	}
+
+        /* ホバー時のスタイル */
+    	.waves-effect.waves-light.btn:hover {
+    	  background-color: #4a4e58; /* ホバー時の色を変更 */
+    	  color: #fff;
+    	}
     </style>
 
 </head>
