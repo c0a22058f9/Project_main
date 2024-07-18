@@ -70,17 +70,85 @@
 
             return isValid;
         }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            // PHPからuser_idを取得
+            var user_id = "<?php echo isset($user_id) ? $user_id : ''; ?>";
+            if (!user_id) {
+                // 非ログイン時には「商品カート」と「ユーザページ」ボタンを無効化
+                var cartButton = document.getElementById("cart-button");
+                var userButton = document.getElementById("user-button");
+
+                cartButton.classList.add("disabled-button");
+                userButton.classList.add("disabled-button");
+
+            } else {
+                // ログイン時には全てのボタンが有効
+                document.getElementById("cart-button").classList.remove("disabled-button");
+                document.getElementById("user-button").classList.remove("disabled-button");
+            }
+        });
     </script>
+    <style>
+        body {
+            font-family: "SimSun";
+            background-image: url("/Project_main/EC/image/background.jpg");
+            background-color:rgba(255,255,255,0.8);
+            background-blend-mode:lighten;
+        }
+        .carousel .carousel-item {
+            height: 300px;
+        }
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-wrapper {
+            background-image: url(/Project_main/EC/image/nav-background.jpg);
+        }
+        .nav-content {
+            background-color: #919191;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 70%;
+            text-align: center;
+        }
+        .padding {
+            padding-top: 30px;
+        }
+        .nav-font {
+            font-family: "SimSun";
+            margin-left: 100px;
+            font-weight:bold;
+        }
+        .card .card-image img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #828e9c !important;
+        }
+
+        footer h5, footer p {
+            color: black;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a href="../main.php" class="brand-logo black-text nav-font">Lélian Luxe</a>
+                <a href="/Project_main/EC/main.php" class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
-                    <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
-                    <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                    <li><a href="/Project_main/EC/cart/cartview.php" id="cart-button" class="waves-effect waves-light btn">商品カート</a></li>
+                    <li><a href="/Project_main/EC/userinfo/userinfo.php" id="user-button" class="waves-effect waves-light btn">ユーザページ</a></li>
+                    <li><a href="/Project_main/EC/login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="/Project_main/EC/login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
             </div>
         </nav>
@@ -89,7 +157,6 @@
     <main>
         <div class="container">
             <h2>新規登録</h2>
-            <!-- <form action="register.php" method="post" onsubmit="return validateForm()"> -->
             <form action="register.php" method="post">
                 <div class="input-field search">
                     <input type="text" name="last_name" id="last_name" required>
@@ -132,28 +199,28 @@
         </div>
     </main>
     <div class="padding">
-    <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col l6 s12">
-                    <h5 class="white-text">Lélian Luxe</h5>
-                    <p class="grey-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
-                </div>
-                <div class="col l4 offset-l2 s12">
-                    <ul>
-                        <li><a class="grey-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/login.html">ログイン</a></li>
-                        <li><a class="grey-text text-lighten-3" href="./login/register.html">新規登録</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="footer-copyright">
+        <footer class="page-footer">
             <div class="container">
-                &copy; 2024 Shopping Site. All rights reserved.
+                <div class="row">
+                    <div class="col l6 s12">
+                        <h5 class="black-text">Le Lien Luxe</h5>
+                        <p class="black-text text-lighten-4">洗練されたあなたのための特別な一品を</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <ul>
+                            <li><a class="black-text text-lighten-3" href="/Project_main/EC/cart/cartview.php">商品カート</a></li>
+                            <li><a class="black-text text-lighten-3" href="/Project_main/EC/login/login.html">ログイン</a></li>
+                            <li><a class="black-text text-lighten-3" href="/Project_main/EC/login/register.html">新規登録</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-        </div>
-    </footer>
+            <div class="footer-copyright">
+                <div class="container">
+                    &copy; 2024 Shopping Site. All rights reserved.
+                </div>
+            </div>
+        </footer>
     </div>
 </body>
 </html>

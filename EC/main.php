@@ -104,7 +104,7 @@ try {
     <style>
         body {
             font-family: "SimSun";
-            background-image: url("./image/background.jpg");
+            background-image: url("/Project_main/EC/image/background.jpg");
             background-color:rgba(255,255,255,0.8);
             background-blend-mode:lighten;
         }
@@ -116,7 +116,7 @@ try {
             object-fit: cover;
         }
         .nav-wrapper {
-            background-image: url(./image/nav-background.jpg);
+            background-image: url(/Project_main/EC/image/nav-background.jpg);
         }
         .nav-content {
             background-color: #919191;
@@ -139,7 +139,7 @@ try {
         }
 
         footer {
-            background-color: #828e9c;
+            background-color: #828e9c !important;
         }
 
         footer h5, footer p {
@@ -155,17 +155,17 @@ try {
     <header>
         <nav>
             <div class="nav-wrapper">
-                <a class="brand-logo black-text nav-font">Le Lien Luxe</a>
+                <a href="/Project_main/EC/main.php" class="brand-logo black-text nav-font">Le Lien Luxe</a>
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
                     <?php if (!empty($user_id)) : ?>
-                        <li><a href="./cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
-                        <li><a href="./userinfo/userinfo.php" class="waves-effect waves-light btn">ユーザページ</a></li>
+                        <li><a href="/Project_main/EC/cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
+                        <li><a href="/Project_main/EC/userinfo/userinfo.php" class="waves-effect waves-light btn">ユーザページ</a></li>
                     <?php else : ?>
                         <li><a href="" class="waves-effect waves-light btn disabled">商品カート</a></li>
                         <li><a href="" class="waves-effect waves-light btn disabled">ユーザページ</a></li>
                     <?php endif; ?>
-                    <li><a href="./login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
-                    <li><a href="./login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                    <li><a href="/Project_main/EC/login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="/Project_main/EC/login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
                 </ul>
             </div>
         </nav>
@@ -271,9 +271,9 @@ try {
                 </div>
                 <div class="col l4 offset-l2 s12">
                     <ul>
-                        <li><a class="black-text text-lighten-3" href="./cart/cart.html">商品カート</a></li>
-                        <li><a class="black-text text-lighten-3" href="./login/login.html">ログイン</a></li>
-                        <li><a class="black-text text-lighten-3" href="./login/register.html">新規登録</a></li>
+                        <li><a class="black-text text-lighten-3" href="/Project_main/EC/cart/cartview.php">商品カート</a></li>
+                        <li><a class="black-text text-lighten-3" href="/Project_main/EC/login/login.html">ログイン</a></li>
+                        <li><a class="black-text text-lighten-3" href="/Project_main/EC/login/register.html">新規登録</a></li>
                     </ul>
                 </div>
             </div>
