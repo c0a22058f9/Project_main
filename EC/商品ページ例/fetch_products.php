@@ -2,6 +2,7 @@
 ini_set('display_errors', "On");
 error_reporting(E_ALL);
 session_start();
+
 $servername = "localhost";
 $username = "user1";
 $password = "passwordA1!";
@@ -37,7 +38,41 @@ if ($product_id > 0) {
     if ($result) {
         $product = $result->fetch_assoc();
         if ($product) {
-            echo json_encode($product);
+            // reviewsテーブルが存在しない場合に作成
+            $createTableSQL = "
+                CREATE TABLE IF NOT EXISTS `reviews` (
+                    `review_id` INT NOT NULL AUTO_INCREMENT,
+                    `product_id` INT NOT NULL,
+                    `username` VARCHAR(255) NOT NULL,
+                    `comment` TEXT,
+                    `created_at` TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,
+                    PRIMARY KEY (`review_id`),
+                    KEY `product_id` (`product_id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+            ";
+
+            if ($conn->query($createTableSQL) === FALSE) {
+                die("テーブル作成エラー: " . $conn->error);
+            }
+
+            // 初期化
+            $reviews = [];
+
+            // レビューを取得
+            $sql_reviews = "SELECT username, comment, created_at FROM reviews WHERE product_id = ? ORDER BY created_at DESC";
+            $stmt_reviews = $conn->prepare($sql_reviews);
+            if ($stmt_reviews) {
+                $stmt_reviews->bind_param("i", $product_id);
+                $stmt_reviews->execute();
+                $reviews = $stmt_reviews->get_result()->fetch_all(MYSQLI_ASSOC);
+            }
+
+            $response = [
+                'product' => $product,
+                'reviews' => $reviews
+            ];
+
+            echo json_encode($response);
         } else {
             echo json_encode(['error' => '商品が見つかりません']);
         }

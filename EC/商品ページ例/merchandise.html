@@ -34,7 +34,6 @@
             float: left;
             width: 40%;
         }
-
     </style>
 </head>
 <body>
@@ -57,24 +56,26 @@
         <div id="product-container">
             <!-- Product details will be inserted here by JavaScript -->
         </div>
-    <!--調整用空白-->
-    <div style="clear: both;"></div>
-    <!--レビュー機能を追加する上に入力フォームを追加する。またしたにレビューを表示する-->
-    <div class="review-container">
-        <hr>
-        <h3>レビュー</h3>
-        <div class="search">
-        <form action="review.html" method="post">
-            <input id="search" type="text" name="name" placeholder="名前を入力してください">
-            <input id="search" type="text" name="review" placeholder="レビューを入力してください">
-        </div>
-            <button class="btn waves-effect waves-light" type="submit" name="action">レビューを投稿
-                <i class="material-icons right"></i>
-            </button>
-        </form>
-        <hr>
-        <div class="review">
-            <p>レビューがありません</p>
+        <!--調整用空白-->
+        <div style="clear: both;"></div>
+        <!--レビュー機能を追加する上に入力フォームを追加する。また下にレビューを表示する-->
+        <div class="review-container">
+            <hr>
+            <h3>レビュー</h3>
+            <div class="search">
+                <form id="review-form" action="submit_review.php" method="post">
+                    <input id="name" type="text" name="name" placeholder="名前を入力してください" required>
+                    <input id="review" type="text" name="review" placeholder="レビューを入力してください" required>
+                    <input type="hidden" name="product_id" id="product_id" value="">
+                    <button class="btn waves-effect waves-light" type="submit" name="action">レビューを投稿
+                        <i class="material-icons right"></i>
+                    </button>
+                </form>
+            </div>
+            <hr>
+            <div id="reviews">
+                <p>レビューがありません</p>
+            </div>
         </div>
     </div>
 
@@ -90,6 +91,11 @@
             const urlParams = new URLSearchParams(window.location.search);
             const productId = urlParams.get('id');
             
+            if (!productId) {
+                document.getElementById('product-container').innerHTML = '<p>商品IDが見つかりませんでした。</p>';
+                return;
+            }
+
             // Fetch fingerprint from local storage
             let fingerprint = localStorage.getItem('fingerprint');
             if (!fingerprint) {
@@ -113,47 +119,8 @@
                 localStorage.setItem('fingerprint', fingerprint);
             }
 
-            fetch(`fetch_products.php?id=${productId}&fingerprint=${encodeURIComponent(fingerprint)}`)
-                .then(response => response.json())
-                .then(product => {
-                    const container = document.getElementById('product-container');
-                    if (product) {
-                        container.innerHTML = `
-                            <div class="thumbnail-container">
-                                <img src=".${product.image1}" alt="商品画像1" onclick="changeMainImage('.${product.image1}', this)" class="selected">
-                                <img src=".${product.image2}" alt="商品画像2" onclick="changeMainImage('.${product.image2}', this)">
-                                <img src=".${product.image3}" alt="商品画像3" onclick="changeMainImage('.${product.image3}', this)">
-                            </div>
-                            <div class="main-image-container">
-                                <img id="main-image" src=".${product.image1}" alt="商品画像">
-                            </div>
-                            <div class="Product-Description">
-                                <h3>${product.name}</h3>
-                                <hr>
-                                <h4>価格: ${product.price}円</h4>
-                                <hr>
-                                <p>商品説明：${product.description}</p>
-                                <hr>
-                                <p>在庫数：${product.stock}</p>
-                                <hr>
-                                <form action="../cart/cart.php" method="post">
-                                    <input type="hidden" name="product_id" value="${productId}">
-                                    <label for="quantity">個数：</label>
-                                    <input type="number" id="quantity" name="quantity" value="1" min="1" max="${product.stock}">
-                                    <button class="btn waves-effect waves-light" type="submit" name="action">カートに追加
-                                        <i class="material-icons right"></i>
-                                    </button>
-                                </form>
-                            </div>
-                            <!--カートを見るボタンを作成する-->
-                            <div class="cart">
-                                <a href="../cart/cartview.php" class="waves-effect waves-light btn">カートを見る</a>
-                            </div>
-                        `;
-                    } else {
-                        container.innerHTML = `<p>商品が見つかりませんでした。</p>`;
-                    }
-                });
+            // Redirect to PHP page with fingerprint and product ID
+            window.location.href = `merchandise.php?id=${productId}&fingerprint=${encodeURIComponent(fingerprint)}`;
         });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
