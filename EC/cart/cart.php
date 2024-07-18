@@ -87,6 +87,53 @@ try {
             .container {
                 text-align: center;
             }
+            body {
+            font-family: "SimSun";
+            background-image: url("/Project_main/EC/image/background.jpg");
+            background-color:rgba(255,255,255,0.8);
+            background-blend-mode:lighten;
+        }
+        .carousel .carousel-item {
+            height: 300px;
+        }
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-wrapper {
+            background-image: url(/Project_main/EC/image/nav-background.jpg);
+        }
+        .nav-content {
+            background-color: #919191;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 70%;
+            text-align: center;
+        }
+        .padding {
+            padding-top: 30px;
+        }
+        .nav-font {
+            font-family: "SimSun";
+            margin-left: 100px;
+            font-weight:bold;
+        }
+        .card .card-image img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #828e9c;
+        }
+
+        footer h5, footer p {
+            color: black;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
         </style>
     </head>
     <body>
