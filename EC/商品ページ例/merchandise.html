@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>商品詳細</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="../styles.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         .thumbnail-container {
@@ -33,18 +34,21 @@
             float: left;
             width: 40%;
         }
-        .btn.waves-effect.waves-light {
-            background-color: red;
-        }
+
     </style>
 </head>
 <body>
     <header>
-        <nav class="nav-wrapper">
-            <a href="#" class="brand-logo">商品詳細</a>
-            <ul id="nav-mobile" class="right hide-on-med-and-down">
-                <li><a href="main.html" class="waves-effect waves-light btn">ショッピングへ戻る</a></li>
-            </ul>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="../main.php" class="brand-logo black-text nav-font">Le Lélian Luxe</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <li><a href="../cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
+                    <li><a href="../userinfo/userinfo.php" class="waves-effect waves-light btn">ユーザページ</a></li>
+                    <li><a href="../login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="../login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                </ul>
+            </div>
         </nav>
     </header>
     <div class="container">
@@ -59,9 +63,11 @@
     <div class="review-container">
         <hr>
         <h3>レビュー</h3>
-        <form action="review.php" method="post">
-            <input type="text" name="name" placeholder="名前を入力してください">
-            <input type="text" name="review" placeholder="レビューを入力してください">
+        <div class="search">
+        <form action="review.html" method="post">
+            <input id="search" type="text" name="name" placeholder="名前を入力してください">
+            <input id="search" type="text" name="review" placeholder="レビューを入力してください">
+        </div>
             <button class="btn waves-effect waves-light" type="submit" name="action">レビューを投稿
                 <i class="material-icons right"></i>
             </button>
@@ -71,6 +77,7 @@
             <p>レビューがありません</p>
         </div>
     </div>
+
     <script>
         function changeMainImage(src, thumbnail) {
             document.getElementById('main-image').src = src;
