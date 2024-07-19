@@ -7,7 +7,7 @@ $username = "user1";
 $password = "passwordA1!";
 $dbname = "ecdatabase";
 
-//画像ディレクトリ
+// 画像ディレクトリ
 $uploadDir = '../商品ページ例/';
 
 // データベース接続情報の定義
@@ -155,10 +155,8 @@ try {
             <h2>カート</h2>
             <?php
             // 合計金額を計算
-            // 商品詳細を取得するクエリ
             $getProductSql = "SELECT * FROM products WHERE product_id = :product_id";
             
-            // 合計金額を計算
             $totalAmount = 0;
             foreach ($cartItems as $item) {
                 $stmt = $conn->prepare($getProductSql);
@@ -175,34 +173,40 @@ try {
             </div>
             <div class="row">
                 <div class="col s12">
-                    <?php
-                    // 商品詳細を取得するクエリ
-                    $getProductSql = "SELECT * FROM products WHERE product_id = :product_id";
-
-                    if (empty($cartItems)): ?>
+                    <?php if (empty($cartItems)): ?>
                         <p>カートに商品がありません。</p>
                     <?php else: ?>
-                        <?php foreach ($cartItems as $item): ?>
-                            <?php
-                            $stmt = $conn->prepare($getProductSql);
-                            $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
-                            $stmt->execute();
-                            $product = $stmt->fetch(PDO::FETCH_ASSOC);
-                            ?>
-                            <div class="product">
-                                <img src="<?=$uploadDir . htmlspecialchars($product['image1']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
-                                <div class="product-info">
-                                    <h2><?= htmlspecialchars($product['name']) ?></h2>
-                                    <p>価格: <?= htmlspecialchars($product['price']) ?>円</p>
-                                    <p>数量: <?= htmlspecialchars($item['quantity']) ?></p>
-                                    <p>説明: <?= htmlspecialchars($product['description']) ?></p>
-                                    <form action="removeFromCart.php" method="post" onsubmit="return confirm('取り消しますか？');">
-                                        <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['product_id']) ?>">
-                                        <button type="submit" class="btn">取り消し</button>
-                                    </form>
+                        <div class="row">
+                            <?php foreach ($cartItems as $item): ?>
+                                <?php
+                                $stmt = $conn->prepare($getProductSql);
+                                $stmt->bindParam(':product_id', $item['product_id'], PDO::PARAM_INT);
+                                $stmt->execute();
+                                $product = $stmt->fetch(PDO::FETCH_ASSOC);
+                                ?>
+                                <div class="col s12">
+                                    <div class="card horizontal">
+                                        <div class="card-image">
+                                            <img src="<?= $uploadDir . htmlspecialchars($product['image1']) ?>" alt="<?= htmlspecialchars($product['name']) ?>">
+                                        </div>
+                                        <div class="card-stacked">
+                                            <div class="card-content">
+                                                <span class="card-title"><?= htmlspecialchars($product['name']) ?></span>
+                                                <p>価格: <?= htmlspecialchars($product['price']) ?>円</p>
+                                                <p>数量: <?= htmlspecialchars($item['quantity']) ?></p>
+                                                <p>説明: <?= htmlspecialchars($product['description']) ?></p>
+                                            </div>
+                                            <div class="card-action">
+                                                <form action="removeFromCart.php" method="post" onsubmit="return confirm('取り消しますか？');">
+                                                    <input type="hidden" name="product_id" value="<?= htmlspecialchars($item['product_id']) ?>">
+                                                    <button type="submit" class="btn">取り消し</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        <?php endforeach; ?>
+                            <?php endforeach; ?>
+                        </div>
                         <a href="purchase.php" class="waves-effect waves-light btn">購入ページへ移動</a>
                     <?php endif; ?>
                 </div>
@@ -232,7 +236,6 @@ try {
             </div>
         </div>
     </footer>
-
 
     <!-- Materialize JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
