@@ -107,6 +107,8 @@ try {
             background-image: url("/Project_main/EC/image/background.jpg");
             background-color:rgba(255,255,255,0.8);
             background-blend-mode:lighten;
+            background-repeat: no-repeat;
+            background-size: cover;
         }
         .carousel .carousel-item {
             height: 300px;
@@ -160,6 +162,11 @@ try {
     	  background-color: #4a4e58; /* ホバー時の色を変更 */
     	  color: #fff;
     	}
+    	
+    	.search {
+	  background-color:rgba(255,255,255,0.8);
+	  background-blend-mode:lighten;
+	}
     </style>
 </head>
 <body>
