@@ -99,9 +99,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if (!$result->success) {
             // hCaptchaの検証に失敗しました。とメッセージボックスで表示
-            echo '<script>alert("hCaptchaの検証に失敗しました。");</script>';
-            // カートのPageへリダイレクト
-            header('Location: cartview.php');
+            echo '<script>alert("hCaptchaの検証に失敗しました。"); window.location.href = "purchase.php";</script>';
+            exit();
         }
 
         // 在庫を減らす
@@ -139,6 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             if (mail($to, $subject, $message, $headers)) {
                 header('Location: ./thanks_buy.html');
+                exit();
             } else {
                 echo 'メールの送信に失敗しました。';
             }
@@ -222,4 +222,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 </body>
 </html>
-
