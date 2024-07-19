@@ -22,6 +22,7 @@
             width: 100%;
             height: auto;
             object-fit: cover;
+            border: 3px solid rgb(0, 0, 0);
         }
         .thumbnail-container img {
             cursor: pointer;
@@ -29,12 +30,15 @@
             margin-bottom: 10px;
             border: 2px solid transparent;
         }
-        .thumbnail-container img.selected {
-            border: 2px solid red;
-        }
         .Product-Description {
             float: left;
             width: 40%;
+        }
+        .padding {
+            padding-right: 20px;
+        }
+        .cart-margin {
+            margin-top: 10px;
         }
 
     </style>
@@ -66,11 +70,11 @@
         <hr>
         <h3>レビュー</h3>
         <form action="review.php" method="post">
-            <div class="input-field">
+            <div class="input-field search">
                 <input id="name" type="text" name="name" class="validate" required>
                 <label for="name">名前</label>
             </div>
-            <div class="input-field">
+            <div class="input-field search">
                 <textarea id="review" name="review" class="materialize-textarea" required></textarea>
                 <label for="review">レビュー</label>
             </div>
@@ -127,12 +131,7 @@
                     const container = document.getElementById('product-container');
                     if (product) {
                         container.innerHTML = `
-                            <div class="thumbnail-container">
-                                <img src="${product.image1}" alt="商品画像1" onclick="changeMainImage('${product.image1}', this)" class="selected">
-                                <img src="${product.image2}" alt="商品画像2" onclick="changeMainImage('${product.image2}', this)">
-                                <img src="${product.image3}" alt="商品画像3" onclick="changeMainImage('${product.image3}', this)">
-                            </div>
-                            <div class="main-image-container">
+                            <div class="main-image-container padding">
                                 <img id="main-image" src="${product.image1}" alt="商品画像">
                             </div>
                             <div class="Product-Description">
@@ -152,10 +151,8 @@
                                         <i class="material-icons right"></i>
                                     </button>
                                 </form>
-                            </div>
-                            <!--カートを見るボタンを作成する-->
-                            <div class="cart">
-                                <a href="../cart/cartview.php" class="waves-effect waves-light btn">カートを見る</a>
+                                <!--カートを見るボタンを作成する-->
+                                <a href="../cart/cartview.php" class="btn waves-effect waves-light cart-margin">カートを見る</a>
                             </div>
                         `;
                     } else {
