@@ -208,7 +208,7 @@ try {
             <div class="col s12">
                 <p class="flow-text"><?php echo $output; ?></p>
                 <!--メインページへのリンク-->
-                <button onclick="location.href='../index.php'">メインページへ</button>
+                <button onclick="location.href='../main.php'">メインページへ</button>
             </div>
         </div>
     </div>
