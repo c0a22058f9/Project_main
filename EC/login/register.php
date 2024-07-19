@@ -110,10 +110,96 @@ try {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <!--$outputに格納されたメッセージを表示-->
     <title>登録</title>
+    <style>
+        body {
+            font-family: "SimSun";
+            background-image: url("/Project_main/EC/image/background.jpg");
+            background-color:rgba(255,255,255,0.8);
+            background-blend-mode:lighten;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .carousel .carousel-item {
+            height: 300px;
+        }
+        .carousel-item img {
+            height: 100%;
+            object-fit: cover;
+        }
+        .nav-wrapper {
+            background-image: url(/Project_main/EC/image/nav-background.jpg);
+        }
+        .nav-content {
+            background-color: #919191;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 70%;
+            text-align: center;
+        }
+        .padding {
+            padding-top: 30px;
+        }
+        .nav-font {
+            font-family: "SimSun";
+            margin-left: 100px;
+            font-weight:bold;
+        }
+        .card .card-image img {
+            height: 200px;
+            object-fit: cover;
+        }
+
+        footer {
+            background-color: #828e9c !important;
+        }
+
+        footer h5, footer p {
+            color: black;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        /* 共通のボタンスタイル */
+    	.waves-effect.waves-light.btn {
+    	  background-color: #6a6e78; /* 変更したい色にここを変更 */
+    	  color: #fff;
+    	}
+
+        /* ホバー時のスタイル */
+    	.waves-effect.waves-light.btn:hover {
+    	  background-color: #4a4e58; /* ホバー時の色を変更 */
+    	  color: #fff;
+    	}
+    	
+    	.search {
+	  background-color:rgba(255,255,255,0.8);
+	  background-blend-mode:lighten;
+	}
+    </style>
 </head>
 <body>
+<header>
+        <nav>
+            <div class="nav-wrapper">
+                <a href="/Project_main/EC/main.php" class="brand-logo black-text nav-font">Le Lien Luxe</a>
+                <ul id="nav-mobile" class="right hide-on-med-and-down">
+                    <?php if (!empty($user_id)) : ?>
+                        <li><a href="/Project_main/EC/cart/cartview.php" class="waves-effect waves-light btn">商品カート</a></li>
+                        <li><a href="/Project_main/EC/userinfo/userinfo.php" class="waves-effect waves-light btn">ユーザページ</a></li>
+                    <?php else : ?>
+                        <li><a href="" class="waves-effect waves-light btn disabled">商品カート</a></li>
+                        <li><a href="" class="waves-effect waves-light btn disabled">ユーザページ</a></li>
+                    <?php endif; ?>
+                    <li><a href="/Project_main/EC/login/login.html" class="waves-effect waves-light btn">ログイン</a></li>
+                    <li><a href="/Project_main/EC/login/register.html" class="waves-effect waves-light btn">新規登録</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <nav>
-        <div class="nav-wrapper">
+        <div>
             <a href="#" class="brand-logo center">登録完了</a>
         </div>
     </nav>
